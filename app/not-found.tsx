@@ -12,10 +12,10 @@ export const metadata = getMetadata({
 
 const NotFound: React.FC = () => {
   return (
-    <main className="container">
+    <main>
       <section className="grid min-h-dvh place-content-center">
         <div className="text-center">
-          <h1 className="mb-3 text-5xl font-bold tracking-tighter text-zinc-800 dark:text-zinc-300">
+          <h1 className="mb-5 text-5xl font-bold tracking-tighter text-zinc-800 dark:text-zinc-300">
             404
           </h1>
           <p className="text-base text-zinc-800 dark:text-zinc-300">
