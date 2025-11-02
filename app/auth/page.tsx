@@ -19,14 +19,14 @@ const AuthPage: React.FC = () => {
         <div className="flex flex-col gap-4">
           <button
             onClick={() => initiateAuth("google")}
-            className="border-dashed w-full px-3 py-2 text-sm cursor-pointer flex gap-2 items-center transition-colors bg-zinc-800 hover:bg-zinc-700 focus:bg-zinc-950 text-zinc-200"
+            className="w-full px-3 py-2 text-sm cursor-pointer flex gap-2 items-center transition-colors bg-zinc-800 hover:bg-zinc-700 focus:bg-zinc-950 text-zinc-200"
           >
             <GoogleFill size={16} />
             Continue with Google
           </button>
           <button
             onClick={() => initiateAuth("apple")}
-            className="border-dashed w-full px-3 py-2 text-sm cursor-pointer flex gap-2 items-center transition-colors bg-zinc-800 hover:bg-zinc-700 focus:bg-zinc-950 text-zinc-200"
+            className="w-full px-3 py-2 text-sm cursor-pointer flex gap-2 items-center transition-colors bg-zinc-800 hover:bg-zinc-700 focus:bg-zinc-950 text-zinc-200"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -41,7 +41,7 @@ const AuthPage: React.FC = () => {
           </button>
           <button
             onClick={() => initiateAuth("twitter")}
-            className="border-dashed w-full px-3 py-2 text-sm cursor-pointer flex gap-2 items-center transition-colors bg-zinc-800 hover:bg-zinc-700 focus:bg-zinc-950 text-zinc-200"
+            className="w-full px-3 py-2 text-sm cursor-pointer flex gap-2 items-center transition-colors bg-zinc-800 hover:bg-zinc-700 focus:bg-zinc-950 text-zinc-200"
           >
             <XFill size={16} />
             Continue with Twitter
