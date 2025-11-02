@@ -14,33 +14,31 @@ const AdminPage: React.FC = async () => {
 
   return (
     <main>
-      <section className="p-6 md:p-15 h-dvh">
-        <div className="grid place-content-center h-full bg-zinc-100 relative">
-          <div className="flex flex-col gap-4">
-            <p>
-              Welcome{" "}
-              <span className="underline underline-offset-2">
-                {session.user.name}
-              </span>
-              !
-            </p>
-            <form
-              action={async () => {
-                "use server"
-                await auth.api.signOut({
-                  headers: await headers(),
-                })
-                redirect("/auth/")
-              }}
+      <section className="grid place-content-center h-dvh relative">
+        <div className="flex flex-col gap-4">
+          <p>
+            Welcome{" "}
+            <span className="underline underline-offset-2">
+              {session.user.name}
+            </span>
+            !
+          </p>
+          <form
+            action={async () => {
+              "use server"
+              await auth.api.signOut({
+                headers: await headers(),
+              })
+              redirect("/auth/")
+            }}
+          >
+            <button
+              className="w-full px-3 py-2 text-sm cursor-pointer flex gap-2 items-center transition-colors bg-zinc-800 hover:bg-zinc-700 focus:bg-zinc-950 text-zinc-200"
+              type="submit"
             >
-              <button
-                className="border-dashed w-full border border-zinc-300 transition-colors focus:border-zinc-800 hover:border-zinc-800 bg-zinc-50 px-3 py-2 text-sm cursor-pointer text-center"
-                type="submit"
-              >
-                Sign Out
-              </button>
-            </form>
-          </div>
+              Sign Out
+            </button>
+          </form>
         </div>
       </section>
     </main>
