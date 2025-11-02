@@ -12,7 +12,7 @@
 
 - ⚡️ Next.js 15 with App Router
 - 🎨 Tailwind CSS with Typography plugin
-- 🔒 NextAuth.js (Auth.js) for authentication
+- 🔒 Better Auth for authentication
 - 🗄️ Drizzle ORM with NeonDB integration
 - 📝 MDX support for content
 - 🎭 Framer Motion for animations
@@ -51,8 +51,7 @@
 - `hooks/useClickOutside` hook to check if user clicked outside the element
 - `hooks/useModal` hook to create modals, which can close with esc
 - `hooks/useDynamicHeight`
-- Drizzle ORM for database(with NeonDB)
-- NextAuth(or Auth.js) for Auth
+- `auth pages` - Auth page for login
 
 ## Additional Packages Used
 
