@@ -18,7 +18,7 @@ const NotFound: React.FC = () => {
           <h1 className="mb-5 text-5xl font-bold tracking-tighter text-zinc-800 dark:text-zinc-300">
             404
           </h1>
-          <p className="text-base text-zinc-800 dark:text-zinc-300">
+          <p className="text-base text-zinc-800 dark:text-zinc-300 tracking-tight">
             The page you&apos;re looking for cannot be found. Go{" "}
             <Link
               href="/"
