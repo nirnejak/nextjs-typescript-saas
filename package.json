@@ -43,7 +43,7 @@
     "@tailwindcss/typography": "^0.5.19",
     "@types/mdx": "^2.0.13",
     "@types/node": "^24.10.1",
-    "@types/react": "^19.2.5",
+    "@types/react": "^19.2.6",
     "drizzle-kit": "^0.31.7",
     "eslint": "^9.39.1",
     "eslint-config-love": "^133.0.0",
@@ -56,13 +56,13 @@
     "eslint-plugin-tailwindcss": "^3.18.2",
     "globals": "^16.5.0",
     "husky": "^9.1.7",
-    "lint-staged": "^16.2.6",
+    "lint-staged": "^16.2.7",
     "prettier": "^3.6.2",
     "prettier-plugin-tailwindcss": "^0.7.1",
     "shiki": "^3.15.0",
     "tailwindcss": "^4.1.17",
     "typescript": "^5.9.3",
-    "typescript-eslint": "^8.46.4"
+    "typescript-eslint": "^8.47.0"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": "eslint"
