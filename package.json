@@ -46,6 +46,7 @@
     "@types/mdx": "^2.0.13",
     "@types/node": "^25.0.8",
     "@types/react": "^19.2.8",
+    "babel-plugin-react-compiler": "^1.0.0",
     "drizzle-kit": "^0.31.8",
     "eslint": "^9.39.2",
     "eslint-config-next": "^16.1.1",
