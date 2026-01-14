@@ -26,6 +26,7 @@ const eslintConfig = defineConfig([
     settings: {
       "better-tailwindcss": {
         entryPoint: "styles/main.css",
+        detectComponentClasses: true,
       },
     },
   },
