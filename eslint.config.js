@@ -6,10 +6,6 @@ import prettierPlugin from "eslint-plugin-prettier"
 import promise from "eslint-plugin-promise"
 import betterTailwindcss from "eslint-plugin-better-tailwindcss"
 
-// Incompatible
-// import love from "eslint-config-love"
-// import nodePlugin from "eslint-plugin-n"
-
 const eslintConfig = defineConfig([
   ...nextVitals,
   ...nextTs,
