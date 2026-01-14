@@ -15,18 +15,28 @@ const initiateAuth = (provider: string) => {
 const AuthPage: React.FC = () => {
   return (
     <main>
-      <section className="grid place-content-center relative h-dvh">
+      <section className="relative grid h-dvh place-content-center">
         <div className="flex flex-col gap-4">
           <button
             onClick={() => initiateAuth("google")}
-            className="w-full px-3 py-2 text-sm cursor-pointer flex gap-2 items-center transition-colors bg-zinc-800 hover:bg-zinc-700 focus:bg-zinc-950 text-zinc-200"
+            className="
+              flex w-full cursor-pointer items-center gap-2 bg-zinc-800 px-3
+              py-2 text-sm text-zinc-200 transition-colors
+              hover:bg-zinc-700
+              focus:bg-zinc-950
+            "
           >
             <GoogleFill size={16} />
             Continue with Google
           </button>
           <button
             onClick={() => initiateAuth("apple")}
-            className="w-full px-3 py-2 text-sm cursor-pointer flex gap-2 items-center transition-colors bg-zinc-800 hover:bg-zinc-700 focus:bg-zinc-950 text-zinc-200"
+            className="
+              flex w-full cursor-pointer items-center gap-2 bg-zinc-800 px-3
+              py-2 text-sm text-zinc-200 transition-colors
+              hover:bg-zinc-700
+              focus:bg-zinc-950
+            "
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -41,7 +51,12 @@ const AuthPage: React.FC = () => {
           </button>
           <button
             onClick={() => initiateAuth("twitter")}
-            className="w-full px-3 py-2 text-sm cursor-pointer flex gap-2 items-center transition-colors bg-zinc-800 hover:bg-zinc-700 focus:bg-zinc-950 text-zinc-200"
+            className="
+              flex w-full cursor-pointer items-center gap-2 bg-zinc-800 px-3
+              py-2 text-sm text-zinc-200 transition-colors
+              hover:bg-zinc-700
+              focus:bg-zinc-950
+            "
           >
             <XFill size={16} />
             Continue with Twitter

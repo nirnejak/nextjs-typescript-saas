@@ -16,14 +16,17 @@ const buttonVariants = cva("rounded-md", {
       lg: "px-8 py-3 text-lg",
     },
     defaultVariants: {
+      // eslint-disable-next-line better-tailwindcss/no-unknown-classes
       variant: "secondary",
+      // eslint-disable-next-line better-tailwindcss/no-unknown-classes
       size: "md",
     },
   },
 })
 
 export interface Props
-  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
+  extends
+    React.ButtonHTMLAttributes<HTMLButtonElement>,
     VariantProps<typeof buttonVariants> {
   asChild?: boolean
 }

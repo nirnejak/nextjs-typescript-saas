@@ -12,7 +12,12 @@ interface Props {
 
 const BlogWrapper: React.FC<Props> = ({ children }) => {
   return (
-    <main className="mx-auto my-24 w-full max-w-[680px] px-4 md:px-0">
+    <main
+      className="
+        mx-auto my-24 w-full max-w-170 px-4
+        md:px-0
+      "
+    >
       <article
         className={classNames(
           "prose prose-zinc prose-img:mx-auto",
@@ -47,7 +52,11 @@ const components: MDXComponents = {
     if (isInline) {
       return (
         <code
-          className="rounded bg-zinc-100 px-1.5 py-0.5 font-semibold text-blue-600 before:hidden after:hidden"
+          className="
+            rounded-sm bg-zinc-100 px-1.5 py-0.5 font-semibold text-blue-600
+            before:hidden
+            after:hidden
+          "
           {...props}
         >
           {(children as string).replaceAll("`", "")}
@@ -66,7 +75,10 @@ const components: MDXComponents = {
       return (
         <Link
           href={href}
-          className={"underline underline-offset-2 hover:no-underline"}
+          className={`
+            underline underline-offset-2
+            hover:no-underline
+          `}
           {...props}
         >
           {children}
@@ -77,7 +89,10 @@ const components: MDXComponents = {
       return (
         <a
           href={href}
-          className={"underline underline-offset-2 hover:no-underline"}
+          className={`
+            underline underline-offset-2
+            hover:no-underline
+          `}
           {...props}
         >
           {children}
@@ -89,7 +104,10 @@ const components: MDXComponents = {
         href={href}
         target="_blank"
         rel="noopener noreferrer"
-        className={"underline underline-offset-2 hover:no-underline"}
+        className={`
+          underline underline-offset-2
+          hover:no-underline
+        `}
         {...props}
       >
         {children}
