@@ -10,7 +10,9 @@ This file contains guidelines and commands for agentic coding agents working in 
 - `bun run build` - Build for production
 - `bun run start` - Start production server
 - `bun run lint` - Run ESLint
+- `bun run lint:fix` - Run ESLint with automatic fixes
 - `bun run format` - Format with Prettier
+- `bun run format:check` - Check if files are formatted correctly with Prettier
 - `bun run type-check` - Run TypeScript type checking
 
 ### Database Commands (Drizzle ORM)
@@ -28,10 +30,15 @@ This file contains guidelines and commands for agentic coding agents working in 
 
 **No testing framework is currently configured.** When adding tests:
 
-1. Choose between Jest or Vitest
-2. Add appropriate configuration files
-3. Install testing dependencies
-4. Follow the project's existing code patterns
+1. Choose between Jest or Vitest (Vitest recommended for modern Next.js projects)
+2. Add appropriate configuration files (vitest.config.ts, jest.config.js, or similar)
+3. Install testing dependencies (`vitest`, `@testing-library/react`, `@testing-library/jest-dom`, etc.)
+4. Configure test scripts in package.json:
+   - `test` - Run all tests
+   - `test:watch` - Run tests in watch mode
+   - `test:coverage` - Run tests with coverage report
+   - `test:ui` - Run tests with UI (if using Vitest UI)
+5. Follow the project's existing code patterns and TypeScript conventions
 
 ## Code Style Guidelines
 
@@ -41,15 +48,21 @@ This file contains guidelines and commands for agentic coding agents working in 
 app/                    # Next.js App Router (pages, API routes, layouts)
 ├── admin/             # Admin pages
 ├── api/               # API routes
+│   ├── auth/          # Authentication routes (Better Auth)
+│   ├── schema.ts      # Database schema definitions
+│   └── waitlist/      # Waitlist API endpoints
 ├── auth/              # Authentication pages
 └── blog/              # Blog/MDX content
 components/            # React components
 ├── atoms/            # Basic UI components (Button, etc.)
 hooks/                # Custom React hooks
-lib/                  # Library configurations (auth)
+lib/                  # Library configurations (auth, database)
 utils/                # Utility functions
-styles/               # Global CSS
+styles/               # Global CSS (Tailwind CSS with custom theme)
 @types/               # TypeScript type definitions
+drizzle/              # Database migrations and generated types
+assets/               # Project assets
+public/               # Static assets
 ```
 
 ### Component Patterns
@@ -58,21 +71,55 @@ styles/               # Global CSS
 - Props interfaces should extend HTML attributes and `VariantProps` when applicable
 - Use Class Variance Authority (CVA) for component variants
 - Implement custom `classNames` utility for conditional styling
+- Export interface as `Props` and component as default export
 
 ```typescript
 import * as React from "react"
 import { cva, type VariantProps } from "class-variance-authority"
 import classNames from "@/utils/classNames"
 
-interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement>, VariantProps<typeof buttonVariants> {
-  // Additional props
+const buttonVariants = cva("rounded-md", {
+  variants: {
+    variant: {
+      primary: "bg-white",
+      secondary: "bg-gray-400",
+    },
+    size: {
+      sm: "px-5 py-1.5 text-sm",
+      md: "px-6 py-2",
+      lg: "px-8 py-3 text-lg",
+    },
+  },
+  defaultVariants: {
+    variant: "secondary",
+    size: "md",
+  },
+})
+
+export interface Props
+  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
+  VariantProps<typeof buttonVariants> {
+  asChild?: boolean
 }
 
-const Button: React.FC<ButtonProps> = ({ className, ...props }) => {
+const Button: React.FC<Props> = ({
+  children,
+  className,
+  variant,
+  size,
+  ...props
+}) => {
   return (
-    <button className={classNames(buttonVariants({ variant }), className)} {...props} />
+    <button
+      {...props}
+      className={classNames(buttonVariants({ variant, size }), className)}
+    >
+      {children}
+    </button>
   )
 }
+
+export default Button
 ```
 
 ### Import Patterns
@@ -83,6 +130,10 @@ import { cva, type VariantProps } from "class-variance-authority"
 import classNames from "@/utils/classNames"
 import * as motion from "motion/react-client"
 ```
+
+- Use explicit namespace imports for React and libraries with multiple exports
+- Use absolute imports with `@/` prefix for project files
+- Group imports by: React/external libraries, then internal modules
 
 ### Naming Conventions
 
@@ -98,6 +149,7 @@ import * as motion from "motion/react-client"
 - Leverage path aliasing with `@/` prefix for absolute imports
 - Define interfaces for component props extending HTML attributes when appropriate
 - Use `type` for type aliases, `interface` for object shapes that may be extended
+- Enable strict null checks and other strict compiler options
 
 ### Error Handling Patterns
 
@@ -127,11 +179,12 @@ export async function POST(request: Request) {
 
 ### Styling Guidelines
 
-- Use Tailwind CSS with custom theme configuration
+- Use Tailwind CSS v4 with custom theme configuration
 - Leverage `@theme` directive for CSS-in-JS patterns
 - Implement dark mode support using CSS custom properties
 - Use consistent transition and animation patterns
 - Follow the existing design system for spacing, colors, and typography
+- Use custom `classNames` utility for conditional styling
 
 ### Database Patterns
 
@@ -147,6 +200,18 @@ export async function POST(request: Request) {
 - Use localStorage for client-side persistence (theme, preferences)
 - Follow React best practices for state updates and effects
 
+## Project Features
+
+- **Next.js 15+** with App Router and React 19
+- **MDX Support** for content pages
+- **View Transitions** for smooth page navigation
+- **Framer Motion** for animations with custom keyframes
+- **Sonner** for toast notifications
+- **use-sound** for audio effects
+- **Akar Icons** for consistent iconography
+- **Sharp** for image optimization
+- **SEO Optimized** with metadata and schema.org support
+
 ## Development Workflow
 
 1. **Before making changes**: Run `bun run type-check` to ensure baseline type safety
@@ -160,7 +225,7 @@ export async function POST(request: Request) {
 ## Tool Configuration
 
 - **Package Manager**: Bun (preferred over npm/yarn)
-- **Linting**: ESLint with Love config + Next.js rules
+- **Linting**: ESLint with Next.js rules + Prettier + Better Tailwind CSS + Promise rules
 - **Formatting**: Prettier with Tailwind plugin
 - **Type Checking**: TypeScript with strict mode
 - **Git Hooks**: Husky for pre-commit quality checks
