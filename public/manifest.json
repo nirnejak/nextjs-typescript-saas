@@ -1,32 +1,32 @@
 {
-    "theme_color": "#000000",
-    "background_color": "#000000",
-    "display": "standalone",
-    "scope": "/",
-    "start_url": "/",
-    "name": "Next.js TypeScript SaaS Starter",
-    "short_name": "Next.js App",
-    "description": "Next.js starter for building SaaS products configured TypeScript, Drizzle, NextAuth, ESLint, Tailwind, Framer Motion etc.",
-    "icons": [
-        {
-            "src": "/path-to-icons/icon-192x192.png",
-            "sizes": "192x192",
-            "type": "image/png"
-        },
-        {
-            "src": "/path-to-icons/icon-256x256.png",
-            "sizes": "256x256",
-            "type": "image/png"
-        },
-        {
-            "src": "/path-to-icons/icon-384x384.png",
-            "sizes": "384x384",
-            "type": "image/png"
-        },
-        {
-            "src": "/path-to-icons/icon-512x512.png",
-            "sizes": "512x512",
-            "type": "image/png"
-        }
-    ]
+  "theme_color": "#000000",
+  "background_color": "#000000",
+  "display": "standalone",
+  "scope": "/",
+  "start_url": "/",
+  "name": "Next.js TypeScript SaaS Starter",
+  "short_name": "Next.js App",
+  "description": "Next.js starter for building SaaS products configured TypeScript, Drizzle, NextAuth, ESLint, Tailwind, Framer Motion etc.",
+  "icons": [
+    {
+      "src": "/path-to-icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/path-to-icons/icon-256x256.png",
+      "sizes": "256x256",
+      "type": "image/png"
+    },
+    {
+      "src": "/path-to-icons/icon-384x384.png",
+      "sizes": "384x384",
+      "type": "image/png"
+    },
+    {
+      "src": "/path-to-icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
 }
