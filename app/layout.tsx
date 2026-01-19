@@ -9,7 +9,7 @@ import localFont from "next/font/local"
 import classNames from "@/utils/classNames"
 import { renderSchemaTags } from "@/utils/schema"
 
-import "../styles/main.css"
+import "./main.css"
 
 const sansFont = Inter({
   variable: "--sans-font",
