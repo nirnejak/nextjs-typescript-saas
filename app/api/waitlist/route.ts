@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server"
 
-import { db } from "@/drizzle.config"
+import { db } from "@/lib/db"
 import { waitlist } from "@/app/api/schema"
 
 export async function GET() {
