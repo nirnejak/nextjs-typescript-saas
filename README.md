@@ -65,112 +65,24 @@
 
 ## Getting Started
 
-1. Clone the repository:
+1. Clone and install: `git clone https://github.com/nirnejak/nextjs-typescript-saas.git && cd nextjs-typescript-saas && bun install`
 
-```bash
-git clone https://github.com/nirnejak/nextjs-typescript-saas.git
-cd nextjs-typescript-saas
-```
+2. Set up environment: `cp .env.example .env` and update `.env` with your config
 
-2. Install dependencies:
-
-```bash
-bun install
-```
-
-3. Copy the environment variables:
-
-```bash
-cp .env.example .env
-```
-
-4. Update the environment variables in `.env` with your configuration.
-
-5. Setup pre-commit hooks:
-
-```bash
-bun run prepare
-```
-
-6. Start the development server:
-
-```bash
-bun run dev
-```
+3. Start dev server: `bun run dev`
 
 ## Available Scripts
 
-**Install Dependencies**
-
-```bash
-bun install
-```
-
-**Setup Pre-commit**
-
-```bash
-bun run prepare
-```
-
-**Start Development Server**
-
-```bash
-bun run dev
-```
-
-**Lint all the files**
-
-```bash
-bun run lint
-```
-
-**Format all files with Prettier**
-
-```bash
-bun run format
-```
-
-**Check TypeScript issues**
-
-```bash
-bun run type-check
-```
-
-**Generate Database Migrations**
-
-```bash
-bun run db:generate
-```
-
-**Run Database Migrations**
-
-```bash
-bun run db:migrate
-```
-
-**Push Database Migrations**
-
-```bash
-bun run db:push
-```
-
-**Start Database Admin**
-
-```bash
-bun run db:studio
-```
-
-**Build for Production**
-
-```bash
-bun run build
-```
-
-**Start Production Server**
-
-```bash
-bun start
-```
+- `bun install` - Install dependencies
+- `bun run prepare` - Setup pre-commit hooks
+- `bun run dev` - Start development server
+- `bun run lint` - Run ESLint
+- `bun run format` - Format with Prettier
+- `bun run type-check` - Run TypeScript type checking
+- `bun run db:generate` - Generate database migrations
+- `bun run db:migrate` - Run database migrations
+- `bun run build` - Build for production
+- `bun run start` - Start production server
 
 ## Configuration
 
