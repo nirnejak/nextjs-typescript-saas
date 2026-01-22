@@ -3,7 +3,7 @@ import * as React from "react"
 import { headers } from "next/headers"
 import { redirect } from "next/navigation"
 
-import { auth } from "@/lib/auth"
+import { auth } from "@/utils/auth"
 
 const AdminPage: React.FC = async () => {
   const session = await auth.api.getSession({
