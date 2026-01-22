@@ -28,9 +28,10 @@ This file contains guidelines and commands for agentic coding agents working in 
 - `bun run test:watch` - Run tests in watch mode
 - `bun run test:coverage` - Run tests with coverage report
 - `bun run test -- path/to/test.spec.ts` - Run single test file
-- `bun run test -- --run --reporter=verbose` - Run with detailed output
 
-**Note**: No testing framework configured yet. Use Vitest for modern Next.js projects.
+**Note**: No testing framework configured yet. When adding Vitest:
+
+- Install: `bun add -D vitest @testing-library/react @testing-library/jest-dom jsdom`
 
 ## Code Style Guidelines
 
@@ -41,23 +42,24 @@ app/                    # Next.js App Router (pages, API routes, layouts)
 ├── admin/             # Admin pages
 ├── api/               # API routes (auth, schema, waitlist)
 ├── auth/              # Authentication pages
-└── blog/              # Blog/MDX content
-components/            # React components (atoms/, molecules/, etc.)
+├── blog/              # Blog/MDX content
+├── main.css           # Global CSS with Tailwind v4 and custom animations
+└── layout.tsx         # Root layout with font loading and theme setup
+components/            # React components (organized by atomic design)
+├── atoms/            # Basic UI components (Button, etc.)
 hooks/                # Custom React hooks
-lib/                  # Library configurations (auth, database)
-utils/                # Utility functions
-styles/               # Global CSS with Tailwind v4
-@types/               # TypeScript type definitions
+utils/                # Utility functions (classNames, db, schema)
+@types/               # TypeScript type definitions (when needed)
 drizzle/              # Database migrations and generated types
 public/               # Static assets
 ```
 
 ### Component Patterns
 
-- Use functional components with `React.FC<Props>`
-- Props interfaces extend HTML attributes and `VariantProps`
-- Use Class Variance Authority (CVA) for variants
-- Export interface as `Props`, component as default
+- Use functional components with `React.FC<Props>` interface
+- Props interfaces extend HTML attributes and `VariantProps` from CVA
+- Use Class Variance Authority (CVA) for variant-based styling
+- Export interface as `Props`, component as default export
 - Use custom `classNames` utility for conditional styling
 
 ```typescript
@@ -66,7 +68,7 @@ export interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement>, Va
 }
 
 const Button: React.FC<Props> = ({ children, className, variant, size, ...props }) => (
-  <button {...props} className={classNames(buttonVariants({ variant, size }), className)}>
+  <button className={classNames(buttonVariants({ variant, size }), className)} {...props}>
     {children}
   </button>
 )
@@ -81,9 +83,11 @@ import classNames from "@/utils/classNames"
 import * as motion from "motion/react-client"
 ```
 
-- Explicit namespace imports for React and multi-export libraries
+- Explicit namespace imports for React (`import * as React from "react"`)
+- Namespace imports for multi-export libraries (motion, etc.)
 - Absolute imports with `@/` prefix for internal files
-- Group: React → external libs → internal modules
+- Group imports: React → external libraries → internal modules
+- Type-only imports for TypeScript types (`import type { Viewport } from "next"`)
 
 ### Naming Conventions
 
@@ -91,23 +95,26 @@ import * as motion from "motion/react-client"
 - **Hooks**: camelCase with `use` prefix (`useTheme`, `useLocalStorage`)
 - **Variables**: camelCase (`buttonVariants`, `userData`)
 - **Constants**: UPPER_SNAKE_CASE (`BASE_URL`, `API_TIMEOUT`)
-- **Types**: PascalCase (`UserProps`, `ApiResponse<T>`)
-- **Files**: PascalCase for components, camelCase for utilities
+- **Types**: PascalCase (`Props`, `ApiResponse<T>`, `THEME_HOOK`)
+- **Files**: PascalCase for components (`Button.tsx`), camelCase for utilities (`classNames.ts`)
+- **Database**: snake_case for table/column names (`user_id`, `email_verified`)
 
 ### TypeScript Guidelines
 
-- Strict mode enabled with `strictNullChecks: true`
-- Use `interface` for object shapes, `type` for unions/aliases
-- Prefer `const` assertions and `as const` for literals
+- Strict mode enabled with `strict: true` and `strictNullChecks: true`
+- Use `interface` for object shapes and component props
+- Use `type` for unions, aliases, and complex type expressions
+- Prefer `const` assertions and `as const` for literal types
 - Leverage path mapping with `@/*` for absolute imports
-- Use `React.ComponentProps<typeof Component>` for prop extraction
+- Use `React.ComponentProps<typeof Component>` for extracting component props
+- Include return type annotations for hook functions
+- Use type imports for better tree-shaking (`import type { Viewport } from "next"`)
 
 ### Database Patterns
 
-- Schema-first approach with Drizzle ORM
-- Use Neon PostgreSQL with proper foreign key relationships
+- Schema-first approach with Drizzle ORM and Neon PostgreSQL
+- Use proper foreign key relationships with cascade delete
 - Implement `$onUpdate` for automatic timestamp updates
-- Use `references()` with cascade delete where appropriate
 
 ```typescript
 export const user = pgTable("user", {
@@ -121,25 +128,43 @@ export const user = pgTable("user", {
 
 ### Error Handling
 
-- API routes: Try-catch with `NextResponse.json()` for errors
-- Components: Graceful fallbacks and loading states
-- Use `console.error` for logging, avoid exposing sensitive data
-- Implement proper HTTP status codes and error messages
+- API routes: Try-catch blocks with `NextResponse.json()` for structured error responses
+- Components: Graceful fallbacks, loading states, and error boundaries
+- Use `console.error` for logging errors, never expose sensitive data
+- Implement proper HTTP status codes (200, 400, 500) and descriptive messages
+
+```typescript
+export async function POST(request: Request) {
+  try {
+    // ... operation
+    return NextResponse.json({ message: "Success!" }, { status: 200 })
+  } catch (error) {
+    console.error("Error processing request:", error)
+    return NextResponse.json(
+      { error: "Failed to process request" },
+      { status: 400 }
+    )
+  }
+}
+```
 
 ### Styling Guidelines
 
-- Tailwind CSS v4 with custom `@theme` directives
-- Custom animations defined in `styles/main.css`
-- Use CSS custom properties for theme variables
+- Tailwind CSS v4 with custom `@theme` directives in `app/main.css`
+- Custom animations defined using `@keyframes` and `--animate-*` variables
+- Use CSS custom properties for theme variables (`--sans-font`, `--mono-font`)
 - Leverage `classNames` utility for conditional classes
-- Follow established design tokens for consistency
+- Follow established design tokens (zinc color palette, consistent spacing)
+- Use `dark:` prefix for dark mode variants
+- Include `antialiased` and `text-rendering: geometricPrecision` for text quality
 
 ### State Management
 
-- React hooks for local component state
-- Custom hooks for shared logic (`useLocalStorage`, `useAuth`)
-- Context providers for app-wide state
+- React hooks for local component state (`useState`, `useEffect`)
+- Custom hooks for shared logic (`useTheme`, `useLocalStorage`, `useModal`)
+- Context providers for app-wide state (when needed)
 - Server state with React Query/SWR (when added)
+- Local storage for theme preferences and user settings
 
 ## Development Workflow
 
