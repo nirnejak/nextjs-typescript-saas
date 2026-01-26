@@ -1,10 +1,8 @@
 import * as React from "react"
-
 import type { Viewport } from "next"
-import { ViewTransitions } from "next-view-transitions"
-
 import { Inter } from "next/font/google"
 import localFont from "next/font/local"
+import { ViewTransitions } from "next-view-transitions"
 
 import classNames from "@/utils/classNames"
 import { renderSchemaTags } from "@/utils/schema"
