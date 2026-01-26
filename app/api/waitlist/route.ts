@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server"
 
-import { db } from "@/utils/db"
-import { waitlist } from "@/app/api/schema"
+import { db } from "@/db"
+import { waitlist } from "@/db/schema"
 
 export async function GET() {
   try {
