@@ -1,6 +1,6 @@
 import type { Metadata } from "next"
 
-import config from "../config"
+import config from "@/config"
 
 interface MetadataArgs {
   path: string

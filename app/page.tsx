@@ -1,9 +1,8 @@
 import * as React from "react"
-
 import * as motion from "motion/react-client"
 
-import { BASE_TRANSITION } from "@/utils/animation"
 import { getMetadata } from "@/utils/metadata"
+import { BASE_TRANSITION } from "@/utils/animation"
 
 export const metadata = getMetadata({
   path: "/",

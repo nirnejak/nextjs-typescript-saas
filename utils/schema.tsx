@@ -1,6 +1,6 @@
 import * as React from "react"
 
-import config from "../config"
+import config from "@/config"
 
 // INFO: Learn more at https://developers.google.com/search/docs/appearance/structured-data/intro-structured-data
 // INFO: Test at https://search.google.com/test/rich-results

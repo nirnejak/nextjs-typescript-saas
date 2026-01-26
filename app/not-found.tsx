@@ -1,5 +1,4 @@
 import * as React from "react"
-
 import { Link } from "next-view-transitions"
 
 import { getMetadata } from "@/utils/metadata"
