@@ -43,7 +43,7 @@
     "@tailwindcss/typography": "^0.5.19",
     "@types/mdx": "^2.0.13",
     "@types/node": "^25.0.10",
-    "@types/react": "^19.2.9",
+    "@types/react": "^19.2.10",
     "babel-plugin-react-compiler": "^1.0.0",
     "drizzle-kit": "^0.31.8",
     "eslint": "^9.39.2",
