@@ -6,7 +6,7 @@
   "start_url": "/",
   "name": "Next.js TypeScript SaaS Starter",
   "short_name": "Next.js App",
-  "description": "Next.js starter for building SaaS products configured TypeScript, Drizzle, NextAuth, ESLint, Tailwind, Framer Motion etc.",
+  "description": "Next.js starter for building SaaS products configured TypeScript, Drizzle, BetterAuth, ESLint, Tailwind, Framer Motion etc.",
   "icons": [
     {
       "src": "/path-to-icons/icon-192x192.png",
