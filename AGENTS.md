@@ -1,6 +1,6 @@
 # AGENTS.md
 
-This file contains guidelines and commands for agentic coding agents working in this Next.js TypeScript SaaS repository.
+Guidelines and commands for agentic coding agents working in this Next.js TypeScript SaaS repository.
 
 ## Development Commands
 
@@ -22,16 +22,20 @@ This file contains guidelines and commands for agentic coding agents working in 
 - `bun run db:push` - Push schema changes directly to database (development only)
 - `bun run db:studio` - Open Drizzle Studio for database management
 
-### Testing Commands (When Framework Added)
+### Testing Commands
+
+**Note**: No testing framework configured. To add Vitest:
+
+```bash
+bun add -D vitest @testing-library/react @testing-library/jest-dom jsdom
+```
+
+Once configured, use:
 
 - `bun run test` - Run all tests
 - `bun run test:watch` - Run tests in watch mode
-- `bun run test:coverage` - Run tests with coverage report
+- `bun run test:coverage` - Run tests with coverage
 - `bun run test -- path/to/test.spec.ts` - Run single test file
-
-**Note**: No testing framework configured yet. When adding Vitest:
-
-- Install: `bun add -D vitest @testing-library/react @testing-library/jest-dom jsdom`
 
 ## Code Style Guidelines
 
@@ -39,31 +43,39 @@ This file contains guidelines and commands for agentic coding agents working in 
 
 ```
 app/                    # Next.js App Router (pages, API routes, layouts)
-├── admin/             # Admin pages
-├── api/               # API routes (auth, schema, waitlist)
-├── auth/              # Authentication pages
-├── blog/              # Blog/MDX content
-├── main.css           # Global CSS with Tailwind v4 and custom animations
-└── layout.tsx         # Root layout with font loading and theme setup
-components/            # React components (organized by atomic design)
-├── atoms/            # Basic UI components (Button, etc.)
-hooks/                # Custom React hooks
-utils/                # Utility functions (classNames, db, schema)
-@types/               # TypeScript type definitions (when needed)
-drizzle/              # Database migrations and generated types
-public/               # Static assets
+├── admin/              # Admin pages
+├── api/                # API routes (auth, schema, waitlist)
+├── auth/               # Authentication pages
+├── blog/               # Blog/MDX content
+├── main.css            # Global CSS with Tailwind v4 and custom animations
+└── layout.tsx          # Root layout with font loading and theme setup
+components/             # React components (organized by atomic design)
+├── atoms/              # Basic UI components (Button, etc.)
+hooks/                  # Custom React hooks
+utils/                  # Utility functions (classNames, db, schema)
+@types/                 # TypeScript type definitions
+public/                 # Static assets
 ```
+
+### Import Patterns
+
+```typescript
+import * as React from "react"
+import { cva, type VariantProps } from "class-variance-authority"
+import classNames from "@/utils/classNames"
+import * as motion from "motion/react-client"
+```
+
+- Use `import * as React from "react"` (namespace imports)
+- Use absolute imports with `@/` prefix for internal files
+- Group imports: React → external libraries → internal modules
+- Use type-only imports (`import type { Viewport } from "next"`)
 
 ### Component Patterns
 
-- Use functional components with `React.FC<Props>` interface
-- Props interfaces extend HTML attributes and `VariantProps` from CVA
-- Use Class Variance Authority (CVA) for variant-based styling
-- Export interface as `Props`, component as default export
-- Use custom `classNames` utility for conditional styling
-
 ```typescript
-export interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement>, VariantProps<typeof buttonVariants> {
+export interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement>,
+  VariantProps<typeof buttonVariants> {
   asChild?: boolean
 }
 
@@ -72,49 +84,34 @@ const Button: React.FC<Props> = ({ children, className, variant, size, ...props 
     {children}
   </button>
 )
+
+export default Button
 ```
 
-### Import Patterns
-
-```typescript
-import * as React from "react" // Namespace imports for React
-import { cva, type VariantProps } from "class-variance-authority"
-import classNames from "@/utils/classNames"
-import * as motion from "motion/react-client"
-```
-
-- Explicit namespace imports for React (`import * as React from "react"`)
-- Namespace imports for multi-export libraries (motion, etc.)
-- Absolute imports with `@/` prefix for internal files
-- Group imports: React → external libraries → internal modules
-- Type-only imports for TypeScript types (`import type { Viewport } from "next"`)
+- Use functional components with `React.FC<Props>`
+- Props extend HTML attributes and VariantProps from CVA
+- Export interface as `Props`, component as default export
+- Use `classNames` utility for conditional styling
 
 ### Naming Conventions
 
 - **Components**: PascalCase (`Button`, `UserCard`)
-- **Hooks**: camelCase with `use` prefix (`useTheme`, `useLocalStorage`)
-- **Variables**: camelCase (`buttonVariants`, `userData`)
-- **Constants**: UPPER_SNAKE_CASE (`BASE_URL`, `API_TIMEOUT`)
-- **Types**: PascalCase (`Props`, `ApiResponse<T>`, `THEME_HOOK`)
-- **Files**: PascalCase for components (`Button.tsx`), camelCase for utilities (`classNames.ts`)
-- **Database**: snake_case for table/column names (`user_id`, `email_verified`)
+- **Hooks**: camelCase with `use` prefix (`useTheme`)
+- **Variables**: camelCase (`buttonVariants`)
+- **Constants**: UPPER_SNAKE_CASE (`BASE_URL`)
+- **Types**: PascalCase (`Props`, `ApiResponse<T>`)
+- **Files**: PascalCase for components, camelCase for utilities
+- **Database**: snake_case for table/column names
 
 ### TypeScript Guidelines
 
-- Strict mode enabled with `strict: true` and `strictNullChecks: true`
+- Strict mode enabled (`strict: true`, `strictNullChecks: true`)
 - Use `interface` for object shapes and component props
-- Use `type` for unions, aliases, and complex type expressions
-- Prefer `const` assertions and `as const` for literal types
-- Leverage path mapping with `@/*` for absolute imports
-- Use `React.ComponentProps<typeof Component>` for extracting component props
+- Use `type` for unions and complex type expressions
+- Use path mapping with `@/*` for absolute imports
 - Include return type annotations for hook functions
-- Use type imports for better tree-shaking (`import type { Viewport } from "next"`)
 
 ### Database Patterns
-
-- Schema-first approach with Drizzle ORM and Neon PostgreSQL
-- Use proper foreign key relationships with cascade delete
-- Implement `$onUpdate` for automatic timestamp updates
 
 ```typescript
 export const user = pgTable("user", {
@@ -126,17 +123,15 @@ export const user = pgTable("user", {
 })
 ```
 
-### Error Handling
+- Schema-first with Drizzle ORM and Neon PostgreSQL
+- Use foreign keys with cascade delete
+- Implement `$onUpdate` for automatic timestamps
 
-- API routes: Try-catch blocks with `NextResponse.json()` for structured error responses
-- Components: Graceful fallbacks, loading states, and error boundaries
-- Use `console.error` for logging errors, never expose sensitive data
-- Implement proper HTTP status codes (200, 400, 500) and descriptive messages
+### Error Handling
 
 ```typescript
 export async function POST(request: Request) {
   try {
-    // ... operation
     return NextResponse.json({ message: "Success!" }, { status: 200 })
   } catch (error) {
     console.error("Error processing request:", error)
@@ -148,57 +143,34 @@ export async function POST(request: Request) {
 }
 ```
 
+- API routes: Try-catch with `NextResponse.json()`
+- Use `console.error` for logging, never expose sensitive data
+- Use proper HTTP status codes (200, 400, 500)
+
 ### Styling Guidelines
 
-- Tailwind CSS v4 with custom `@theme` directives in `app/main.css`
-- Custom animations defined using `@keyframes` and `--animate-*` variables
-- Use CSS custom properties for theme variables (`--sans-font`, `--mono-font`)
-- Leverage `classNames` utility for conditional classes
-- Follow established design tokens (zinc color palette, consistent spacing)
+- Tailwind CSS v4 with `@theme` directives in `app/main.css`
+- Custom animations using `@keyframes` and `--animate-*` variables
+- Use CSS custom properties (`--sans-font`, `--mono-font`)
 - Use `dark:` prefix for dark mode variants
-- Include `antialiased` and `text-rendering: geometricPrecision` for text quality
-
-### State Management
-
-- React hooks for local component state (`useState`, `useEffect`)
-- Custom hooks for shared logic (`useTheme`, `useLocalStorage`, `useModal`)
-- Context providers for app-wide state (when needed)
-- Server state with React Query/SWR (when added)
-- Local storage for theme preferences and user settings
-
-## Development Workflow
-
-1. **Setup**: Run `bun run prepare` to install Husky hooks
-2. **Development**: Use `bun run dev` with hot reloading
-3. **Code Quality**: Always run lint, format, and type-check before commits
-4. **Database**: Use `db:generate` → `db:migrate` for schema changes
-5. **Testing**: Add tests when implementing features (Vitest + Testing Library)
-
-## Tool Configuration
-
-- **Package Manager**: Bun (faster than npm/yarn)
-- **Linting**: ESLint + Next.js rules + Prettier + Better Tailwind CSS
-- **Formatting**: Prettier with Tailwind plugin (`tailwindFunctions: ["classNames"]`)
-- **TypeScript**: Strict mode with path aliases
-- **Git Hooks**: Husky pre-commit checks (lint-staged for JS/TS files)
-
-## Project Features
-
-- **Next.js 15+** with App Router, React 19, and React Compiler
-- **MDX Support** for content pages
-- **View Transitions** for smooth navigation
-- **Better Auth** for authentication (session, account, verification tables)
-- **Drizzle ORM** with PostgreSQL (Neon) and schema migrations
-- **Tailwind CSS v4** with custom animations and typography plugin
-- **Framer Motion** for animations with custom keyframes
+- Include `antialiased` for text quality
 
 ## Quality Assurance
 
-Always run these commands before considering work complete:
+Always run before completing work:
 
 - `bun run lint` - No ESLint errors
-- `bun run type-check` - TypeScript compilation passes
+- `bun run type-check` - TypeScript passes
 - `bun run format` - Code formatting consistent
 - `bun run build` - Production build succeeds
 
-Fix any failures before proceeding. Use `bun run lint:fix` for auto-fixes.
+## Project Features
+
+- Next.js 15+ with App Router, React 19, React Compiler
+- MDX Support, View Transitions
+- Better Auth (session, account, verification tables)
+- Drizzle ORM with PostgreSQL (Neon)
+- Tailwind CSS v4 with custom animations
+- Framer Motion for animations
+- Bun package manager
+- Husky pre-commit hooks with lint-staged
