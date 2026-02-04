@@ -2,6 +2,8 @@ import { MetadataRoute } from "next"
 
 import config from "@/config"
 
+import { blogs } from "@/app/blog/data"
+
 const { baseUrl } = config
 
 export const dynamic = "force-dynamic"
@@ -22,5 +24,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
   ]
 
-  return staticRoutes
+  const blogRoutes = blogs.map((blog) => ({
+    url: baseUrl + `/blog/${blog.slug}/`,
+    lastModified: new Date(blog.publishedOn),
+    changeFrequency: "monthly" as const,
+    priority: 0.7,
+  }))
+
+  return [...staticRoutes, ...blogRoutes]
 }
