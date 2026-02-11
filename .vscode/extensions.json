@@ -4,6 +4,6 @@
     "csstools.postcss",
     "unifiedjs.vscode-mdx",
     "bradlc.vscode-tailwindcss",
-    "streetsidesoftware.code-spell-checker",
+    "streetsidesoftware.code-spell-checker"
   ]
 }

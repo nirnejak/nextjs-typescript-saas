@@ -20,16 +20,16 @@ export const auth = betterAuth({
   },
   socialProviders: {
     google: {
-      clientId: process.env.AUTH_GOOGLE_ID!,
-      clientSecret: process.env.AUTH_GOOGLE_SECRET!,
+      clientId: process.env.AUTH_GOOGLE_ID as string,
+      clientSecret: process.env.AUTH_GOOGLE_SECRET as string,
     },
     apple: {
-      clientId: process.env.AUTH_APPLE_ID!,
-      clientSecret: process.env.AUTH_APPLE_SECRET!,
+      clientId: process.env.AUTH_APPLE_ID as string,
+      clientSecret: process.env.AUTH_APPLE_SECRET as string,
     },
     twitter: {
-      clientId: process.env.AUTH_TWITTER_ID!,
-      clientSecret: process.env.AUTH_TWITTER_SECRET!,
+      clientId: process.env.AUTH_TWITTER_ID as string,
+      clientSecret: process.env.AUTH_TWITTER_SECRET as string,
     },
   },
   baseURL:

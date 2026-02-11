@@ -1,6 +1,6 @@
-import * as React from "react"
 import { headers } from "next/headers"
 import { redirect } from "next/navigation"
+import type * as React from "react"
 
 import { auth } from "@/utils/auth"
 
@@ -32,12 +32,7 @@ const AdminPage: React.FC = async () => {
             }}
           >
             <button
-              className="
-                flex w-full cursor-pointer items-center gap-2 bg-zinc-800 px-3
-                py-2 text-sm text-zinc-200 transition-colors
-                hover:bg-zinc-700
-                focus:bg-zinc-950
-              "
+              className="flex w-full cursor-pointer items-center gap-2 bg-zinc-800 px-3 py-2 text-sm text-zinc-200 transition-colors hover:bg-zinc-700 focus:bg-zinc-950"
               type="submit"
             >
               Sign Out

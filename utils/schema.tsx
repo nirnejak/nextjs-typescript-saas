@@ -1,4 +1,4 @@
-import * as React from "react"
+import type * as React from "react"
 
 import config from "@/config"
 
@@ -8,6 +8,7 @@ export const renderSchemaTags = (): React.ReactNode => {
   return (
     <script
       type="application/ld+json"
+      // biome-ignore lint/security/noDangerouslySetInnerHtml: structured data requires dangerouslySetInnerHTML
       dangerouslySetInnerHTML={{
         __html: JSON.stringify({
           "@context": "http://schema.org",

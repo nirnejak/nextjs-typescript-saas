@@ -1,4 +1,4 @@
-import { boolean, timestamp, pgTable, text } from "drizzle-orm/pg-core"
+import { boolean, pgTable, text, timestamp } from "drizzle-orm/pg-core"
 
 export const waitlist = pgTable("waitlist", (w) => ({
   id: w.serial("id").primaryKey(),

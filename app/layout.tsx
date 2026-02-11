@@ -1,8 +1,8 @@
-import * as React from "react"
 import type { Viewport } from "next"
 import { Inter } from "next/font/google"
 import localFont from "next/font/local"
 import { ViewTransitions } from "next-view-transitions"
+import type * as React from "react"
 
 import classNames from "@/utils/classNames"
 import { renderSchemaTags } from "@/utils/schema"
@@ -44,10 +44,7 @@ const RootLayout: React.FC<Props> = ({ children }) => {
         <head>{renderSchemaTags()}</head>
 
         <body
-          className={`
-            overflow-x-hidden bg-zinc-50 font-sans
-            dark:bg-zinc-900
-          `}
+          className={`overflow-x-hidden bg-zinc-50 font-sans dark:bg-zinc-900`}
         >
           {children}
         </body>

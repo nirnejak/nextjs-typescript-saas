@@ -21,7 +21,7 @@ const useModal = (): [
     return () => {
       document.removeEventListener("keydown", handleEsc)
     }
-  }, [isOpen, setIsOpen])
+  }, [isOpen])
 
   return [isOpen, setIsOpen]
 }

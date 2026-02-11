@@ -1,6 +1,5 @@
-import * as React from "react"
-
 import { cva, type VariantProps } from "class-variance-authority"
+import type * as React from "react"
 
 import classNames from "@/utils/classNames"
 
@@ -25,8 +24,7 @@ const buttonVariants = cva("rounded-md", {
 })
 
 export interface Props
-  extends
-    React.ButtonHTMLAttributes<HTMLButtonElement>,
+  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
     VariantProps<typeof buttonVariants> {
   asChild?: boolean
 }

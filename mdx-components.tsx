@@ -1,7 +1,6 @@
-import * as React from "react"
-
 import type { MDXComponents } from "mdx/types"
 import { Link } from "next-view-transitions"
+import type * as React from "react"
 import { codeToHtml } from "shiki"
 
 import classNames from "@/utils/classNames"
@@ -12,22 +11,17 @@ interface Props {
 
 const BlogWrapper: React.FC<Props> = ({ children }) => {
   return (
-    <main
-      className="
-        mx-auto my-24 w-full max-w-170 px-4
-        md:px-0
-      "
-    >
+    <main className="mx-auto my-24 w-full max-w-170 px-4 md:px-0">
       <article
         className={classNames(
           "prose prose-zinc prose-img:mx-auto",
-          "prose-p:opacity-85 prose-blockquote:opacity-85",
-          "prose-headings:opacity-85 prose-headings:font-semibold prose-headings:tracking-tight",
+          "prose-blockquote:opacity-85 prose-p:opacity-85",
+          "prose-headings:font-semibold prose-headings:tracking-tight prose-headings:opacity-85",
           "prose-h1:text-3xl prose-h1:leading-snug",
-          "prose-pre:p-0 prose-pre:bg-[#20252B] prose-code:text-sm prose-pre:px-3",
-          "prose-table:rounded-xl prose-table:overflow-hidden",
-          "prose-thead:border-zinc-300 prose-th:bg-zinc-200 prose-tr:bg-zinc-100 prose-tr:border-zinc-300 ",
-          "prose-th:py-3.5 prose-th:px-3 prose-td:py-3.5 prose-td:px-3"
+          "prose-pre:bg-[#20252B] prose-pre:p-0 prose-pre:px-3 prose-code:text-sm",
+          "prose-table:overflow-hidden prose-table:rounded-xl",
+          "prose-thead:border-zinc-300 prose-tr:border-zinc-300 prose-th:bg-zinc-200 prose-tr:bg-zinc-100",
+          "prose-td:px-3 prose-th:px-3 prose-td:py-3.5 prose-th:py-3.5"
         )}
       >
         {children}
@@ -52,17 +46,14 @@ const components: MDXComponents = {
     if (isInline) {
       return (
         <code
-          className="
-            rounded-sm bg-zinc-100 px-1.5 py-0.5 font-semibold text-blue-600
-            before:hidden
-            after:hidden
-          "
+          className="rounded-sm bg-zinc-100 px-1.5 py-0.5 font-semibold text-blue-600 before:hidden after:hidden"
           {...props}
         >
           {(children as string).replaceAll("`", "")}
         </code>
       )
     } else {
+      // biome-ignore lint/security/noDangerouslySetInnerHtml: rendering syntax-highlighted code from shiki
       return <code dangerouslySetInnerHTML={{ __html: codeHTML }} {...props} />
     }
   },
@@ -75,10 +66,7 @@ const components: MDXComponents = {
       return (
         <Link
           href={href}
-          className={`
-            underline underline-offset-2
-            hover:no-underline
-          `}
+          className={`underline underline-offset-2 hover:no-underline`}
           {...props}
         >
           {children}
@@ -89,10 +77,7 @@ const components: MDXComponents = {
       return (
         <a
           href={href}
-          className={`
-            underline underline-offset-2
-            hover:no-underline
-          `}
+          className={`underline underline-offset-2 hover:no-underline`}
           {...props}
         >
           {children}
@@ -104,10 +89,7 @@ const components: MDXComponents = {
         href={href}
         target="_blank"
         rel="noopener noreferrer"
-        className={`
-          underline underline-offset-2
-          hover:no-underline
-        `}
+        className={`underline underline-offset-2 hover:no-underline`}
         {...props}
       >
         {children}
