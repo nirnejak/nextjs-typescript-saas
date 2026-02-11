@@ -9,9 +9,9 @@ Guidelines and commands for agentic coding agents working in this Next.js TypeSc
 - `bun run dev` - Start development server (http://localhost:3000)
 - `bun run build` - Build for production
 - `bun run start` - Start production server
-- `bun run lint` - Run ESLint
-- `bun run lint:fix` - Run ESLint with automatic fixes
-- `bun run format` - Format with Prettier (includes Tailwind sorting)
+- `bun run lint` - Run Biome linter
+- `bun run lint:fix` - Run Biome linter with automatic fixes
+- `bun run format` - Format with Biome
 - `bun run format:check` - Check if files are formatted correctly
 - `bun run type-check` - Run TypeScript type checking
 
@@ -159,18 +159,19 @@ export async function POST(request: Request) {
 
 Always run before completing work:
 
-- `bun run lint` - No ESLint errors
+- `bun run lint` - No Biome errors
 - `bun run type-check` - TypeScript passes
 - `bun run format` - Code formatting consistent
 - `bun run build` - Production build succeeds
 
 ## Project Features
 
-- Next.js 15+ with App Router, React 19, React Compiler
+- Next.js 16 with App Router, React 19, React Compiler
 - MDX Support, View Transitions
 - Better Auth (session, account, verification tables)
 - Drizzle ORM with PostgreSQL (Neon)
 - Tailwind CSS v4 with custom animations
 - Framer Motion for animations
+- Biome for linting and formatting
 - Bun package manager
 - Husky pre-commit hooks with lint-staged
