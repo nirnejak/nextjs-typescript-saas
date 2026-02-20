@@ -29,7 +29,7 @@
     "class-variance-authority": "^0.7.1",
     "dotenv": "^17.3.1",
     "drizzle-orm": "^0.45.1",
-    "motion": "^12.34.1",
+    "motion": "^12.34.3",
     "next": "^16.1.6",
     "next-view-transitions": "^0.3.5",
     "react": "^19.2.4",
@@ -39,18 +39,18 @@
     "use-sound": "^5.0.0"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.4.2",
-    "@tailwindcss/postcss": "^4.1.18",
+    "@biomejs/biome": "2.4.4",
+    "@tailwindcss/postcss": "^4.2.0",
     "@tailwindcss/typography": "^0.5.19",
     "@types/mdx": "^2.0.13",
-    "@types/node": "^25.2.3",
+    "@types/node": "^25.3.0",
     "@types/react": "^19.2.14",
     "babel-plugin-react-compiler": "^1.0.0",
     "drizzle-kit": "^0.31.9",
     "husky": "^9.1.7",
     "lint-staged": "^16.2.7",
     "shiki": "^3.22.0",
-    "tailwindcss": "^4.1.18",
+    "tailwindcss": "^4.2.0",
     "typescript": "^5.9.3"
   },
   "lint-staged": {
