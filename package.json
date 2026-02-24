@@ -25,7 +25,7 @@
     "@neondatabase/serverless": "^1.0.2",
     "@next/mdx": "^16.1.6",
     "akar-icons": "^1.9.31",
-    "better-auth": "^1.4.18",
+    "better-auth": "^1.4.19",
     "class-variance-authority": "^0.7.1",
     "dotenv": "^17.3.1",
     "drizzle-orm": "^0.45.1",
@@ -40,7 +40,7 @@
   },
   "devDependencies": {
     "@biomejs/biome": "2.4.4",
-    "@tailwindcss/postcss": "^4.2.0",
+    "@tailwindcss/postcss": "^4.2.1",
     "@tailwindcss/typography": "^0.5.19",
     "@types/mdx": "^2.0.13",
     "@types/node": "^25.3.0",
@@ -50,7 +50,7 @@
     "husky": "^9.1.7",
     "lint-staged": "^16.2.7",
     "shiki": "^3.22.0",
-    "tailwindcss": "^4.2.0",
+    "tailwindcss": "^4.2.1",
     "typescript": "^5.9.3"
   },
   "lint-staged": {
