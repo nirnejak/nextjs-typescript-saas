@@ -46,16 +46,20 @@ app/                    # Next.js App Router (pages, API routes, layouts)
 ├── admin/              # Admin pages
 ├── api/                # API routes (auth, schema, waitlist)
 ├── auth/               # Authentication pages
-├── blog/               # Blog/MDX content
+├── blog/               # Blog/MDX content (.mdx files)
 ├── main.css            # Global CSS with Tailwind v4 and custom animations
 └── layout.tsx          # Root layout with font loading and theme setup
 components/             # React components (organized by atomic design)
-├── atoms/              # Basic UI components (Button, etc.)
-hooks/                  # Custom React hooks
-utils/                  # Utility functions (classNames, db, schema)
+├── atoms/              # Atomic UI components using CVA for variants
+db/                     # Drizzle ORM schema and migrations (Neon PostgreSQL)
+hooks/                  # Custom React hooks (useModal, useClickOutside, useDynamicHeight, useTheme)
+utils/                  # Auth setup, metadata generation, schema.org, classNames helper, animation presets
 @types/                 # TypeScript type definitions
+config.ts               # Site-wide SEO/metadata configuration
 public/                 # Static assets
 ```
+
+Server components by default; use `"use client"` directive only when needed.
 
 ### Import Patterns
 
@@ -123,7 +127,9 @@ export const user = pgTable("user", {
 })
 ```
 
-- Schema-first with Drizzle ORM and Neon PostgreSQL
+- Schema-first with Drizzle ORM and Neon serverless PostgreSQL (`@neondatabase/serverless`)
+- Schema in `db/schema.ts` (user, session, account, verification, waitlist tables)
+- Config in `drizzle.config.ts`
 - Use foreign keys with cascade delete
 - Implement `$onUpdate` for automatic timestamps
 
@@ -147,6 +153,14 @@ export async function POST(request: Request) {
 - Use `console.error` for logging, never expose sensitive data
 - Use proper HTTP status codes (200, 400, 500)
 
+### Formatting Rules
+
+Biome handles both linting and formatting (no ESLint/Prettier). Key rules:
+
+- No semicolons, double quotes, ES5 trailing commas, 2-space indent
+- Tailwind classes must be sorted (`useSortedClasses` rule)
+- Pre-commit hook runs `biome check --fix` via lint-staged
+
 ### Styling Guidelines
 
 - Tailwind CSS v4 with `@theme` directives in `app/main.css`
@@ -154,6 +168,7 @@ export async function POST(request: Request) {
 - Use CSS custom properties (`--sans-font`, `--mono-font`)
 - Use `dark:` prefix for dark mode variants
 - Include `antialiased` for text quality
+- Animations: Framer Motion (`motion` package) with `BASE_TRANSITION` preset from `utils/animation.ts`
 
 ## Quality Assurance
 
@@ -161,17 +176,22 @@ Always run before completing work:
 
 - `bun run lint` - No Biome errors
 - `bun run type-check` - TypeScript passes
-- `bun run format` - Code formatting consistent
 - `bun run build` - Production build succeeds
+
+## Architecture Details
+
+**Auth**: Better Auth with OAuth providers (Google, Apple, Twitter). Server instance in `utils/auth.ts`, client in `utils/auth-client.ts`. Auth API handled by catch-all route at `app/api/auth/[...all]/route.ts`.
+
+**Content**: MDX support via `@next/mdx`. Custom components in `mdx-components.tsx` with Shiki syntax highlighting. Blog posts as `.mdx` files under `app/blog/`.
 
 ## Project Features
 
 - Next.js 16 with App Router, React 19, React Compiler
-- MDX Support, View Transitions
-- Better Auth (session, account, verification tables)
-- Drizzle ORM with PostgreSQL (Neon)
+- MDX support with Shiki syntax highlighting, View Transitions
+- Better Auth with OAuth providers (Google, Apple, Twitter)
+- Drizzle ORM with Neon serverless PostgreSQL
 - Tailwind CSS v4 with custom animations
-- Framer Motion for animations
-- Biome for linting and formatting
+- Framer Motion (`motion` package) for animations
+- Biome for linting and formatting (no ESLint/Prettier)
 - Bun package manager
 - Husky pre-commit hooks with lint-staged
