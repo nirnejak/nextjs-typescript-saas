@@ -1,13 +1,9 @@
-export type Blog = {
-  title: string
-  slug: string
-  publishedOn: string
-}
+import { blogs } from "@/blogs"
 
-export const blogs: Blog[] = [
-  {
-    title: "First Blog",
-    slug: "first-blog",
-    publishedOn: "4 Feb 2025",
-  },
-]
+const orderedSlugs = ["first-blog"]
+
+export const allBlogs = orderedSlugs.map((slug) => ({
+  slug,
+  title: blogs[slug].title,
+  publishedOn: blogs[slug].publishedOn,
+}))
