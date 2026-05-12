@@ -2,9 +2,9 @@
   "editor.tabSize": 2,
   "editor.formatOnSave": true,
   "editor.formatOnPaste": true,
-  "editor.defaultFormatter": "biomejs.biome",
+  "editor.defaultFormatter": "oxc.oxc-vscode",
   "editor.codeActionsOnSave": {
-    "source.fixAll": "explicit"
+    "source.fixAll.oxc": "explicit"
   },
   "emmet.includeLanguages": {
     "javascript": "javascriptreact",

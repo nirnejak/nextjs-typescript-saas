@@ -7,9 +7,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ```bash
 bun run dev              # Start dev server (localhost:3000)
 bun run build            # Production build
-bun run lint             # Biome linter
-bun run lint:fix         # Biome linter with auto-fix
-bun run format           # Biome formatter
+bun run lint             # oxlint
+bun run lint:fix         # oxlint with auto-fix
+bun run format           # oxfmt
 bun run type-check       # TypeScript type checking
 bun run db:generate      # Generate Drizzle migrations from schema
 bun run db:migrate       # Run pending migrations
@@ -38,10 +38,11 @@ Run `bun run lint`, `bun run type-check`, and `bun run build` before completing 
 
 ## Code Style
 
-Biome handles both linting and formatting (no ESLint/Prettier). Key rules:
-- No semicolons, double quotes, ES5 trailing commas, 2-space indent
-- Tailwind classes must be sorted (`useSortedClasses` rule)
-- Pre-commit hook runs `biome check --fix` via lint-staged
+oxlint handles linting and oxfmt handles formatting (no ESLint/Prettier/Biome). Key rules:
+
+- No semicolons, double quotes, ES5 trailing commas, 2-space indent, 80-char line width
+- Tailwind classes sorted automatically by oxfmt (`sortTailwindcss` — recognizes `className`, `classNames(...)`, `cva(...)`, `cx(...)`, `clsx(...)`, `twMerge(...)`)
+- Pre-commit hook runs `oxlint --fix` and `oxfmt` via lint-staged
 
 See `AGENTS.md` for detailed component patterns, import conventions, naming rules, and database patterns.
 

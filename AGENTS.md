@@ -9,9 +9,9 @@ Guidelines and commands for agentic coding agents working in this Next.js TypeSc
 - `bun run dev` - Start development server (http://localhost:3000)
 - `bun run build` - Build for production
 - `bun run start` - Start production server
-- `bun run lint` - Run Biome linter
-- `bun run lint:fix` - Run Biome linter with automatic fixes
-- `bun run format` - Format with Biome
+- `bun run lint` - Run oxlint
+- `bun run lint:fix` - Run oxlint with automatic fixes
+- `bun run format` - Format with oxfmt
 - `bun run format:check` - Check if files are formatted correctly
 - `bun run type-check` - Run TypeScript type checking
 
@@ -155,11 +155,11 @@ export async function POST(request: Request) {
 
 ### Formatting Rules
 
-Biome handles both linting and formatting (no ESLint/Prettier). Key rules:
+oxlint handles linting and oxfmt handles formatting (no ESLint/Prettier/Biome). Key rules:
 
-- No semicolons, double quotes, ES5 trailing commas, 2-space indent
-- Tailwind classes must be sorted (`useSortedClasses` rule)
-- Pre-commit hook runs `biome check --fix` via lint-staged
+- No semicolons, double quotes, ES5 trailing commas, 2-space indent, 80-char line width
+- Tailwind classes sorted automatically by oxfmt (`sortTailwindcss` — recognizes `className`, `classNames(...)`, `cva(...)`, `cx(...)`, `clsx(...)`, `twMerge(...)`)
+- Pre-commit hook runs `oxlint --fix` and `oxfmt` via lint-staged
 
 ### Styling Guidelines
 
@@ -174,7 +174,7 @@ Biome handles both linting and formatting (no ESLint/Prettier). Key rules:
 
 Always run before completing work:
 
-- `bun run lint` - No Biome errors
+- `bun run lint` - No oxlint errors
 - `bun run type-check` - TypeScript passes
 - `bun run build` - Production build succeeds
 
@@ -192,6 +192,6 @@ Always run before completing work:
 - Drizzle ORM with Neon serverless PostgreSQL
 - Tailwind CSS v4 with custom animations
 - Framer Motion (`motion` package) for animations
-- Biome for linting and formatting (no ESLint/Prettier)
+- oxlint for linting and oxfmt for formatting (no ESLint/Prettier/Biome)
 - Bun package manager
 - Husky pre-commit hooks with lint-staged

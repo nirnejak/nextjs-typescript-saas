@@ -53,7 +53,6 @@ const components: MDXComponents = {
         </code>
       )
     } else {
-      // biome-ignore lint/security/noDangerouslySetInnerHtml: rendering syntax-highlighted code from shiki
       return <code dangerouslySetInnerHTML={{ __html: codeHTML }} {...props} />
     }
   },

@@ -2,7 +2,7 @@ const config = {
   baseUrl: "https://nextjs-typescript-saas.vercel.app",
   appName: "Next.js TypeScript SaaS Starter",
   appDescription:
-    "Next.js starter for building SaaS products configured with TypeScript, Drizzle, BetterAuth, Biome, Tailwind, Framer Motion etc.",
+    "Next.js starter for building SaaS products configured with TypeScript, Drizzle, BetterAuth, oxlint, oxfmt, Tailwind, Framer Motion etc.",
   creator: "<Creator Name>",
   authorName: "<Author Name>",
   authorUrl: "<Author Name or Email>",
@@ -12,7 +12,8 @@ const config = {
     "Framer Motion",
     "TypeScript",
     "Akar Icons",
-    "Biome",
+    "oxlint",
+    "oxfmt",
     "JavaScript",
     "Postgres",
   ],

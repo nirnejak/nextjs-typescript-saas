@@ -24,7 +24,8 @@ const buttonVariants = cva("rounded-md", {
 })
 
 export interface Props
-  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
+  extends
+    React.ButtonHTMLAttributes<HTMLButtonElement>,
     VariantProps<typeof buttonVariants> {
   asChild?: boolean
 }

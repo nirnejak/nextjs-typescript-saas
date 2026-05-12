@@ -16,7 +16,7 @@ export const metadata: Metadata = getMetadata({
 const BlogsPage: React.FC = () => {
   return (
     <main className="mx-auto w-full max-w-170 px-4 md:px-0">
-      <h1 className="mt-12 mb-8 font-semibold text-3xl/snug tracking-tight md:mb-12">
+      <h1 className="mt-12 mb-8 text-3xl/snug font-semibold tracking-tight md:mb-12">
         <span className="flex text-zinc-800">
           Blog <br />
         </span>
@@ -30,7 +30,7 @@ const BlogsPage: React.FC = () => {
               className="group flex items-center gap-2"
             >
               <p className="font-medium">{blog.title}</p>
-              <div className="flex-1 border-zinc-300 border-t border-dashed" />
+              <div className="flex-1 border-t border-dashed border-zinc-300" />
               <ArrowRight
                 size={15}
                 className="transition-transform group-hover:translate-x-1"

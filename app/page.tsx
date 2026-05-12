@@ -16,7 +16,7 @@ const Home: React.FC = () => {
         initial={{ translateY: 20, opacity: 0, filter: `blur(10px)` }}
         animate={{ translateY: 0, opacity: 1, filter: "none" }}
         transition={{ delay: 0, ...BASE_TRANSITION }}
-        className="font-bold text-5xl text-zinc-800 tracking-tighter dark:text-zinc-300"
+        className="text-5xl font-bold tracking-tighter text-zinc-800 dark:text-zinc-300"
       >
         Next.js TypeScript SaaS Starter!
       </motion.h1>
