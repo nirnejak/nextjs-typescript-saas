@@ -5,27 +5,9 @@
 {
   "tab_size": 2,
   "format_on_save": "on",
-  "languages": {
-    "JavaScript": {
-      "prettier": { "allowed": false },
-      "formatter": [
-        { "language_server": { "name": "oxfmt" } },
-        { "code_action": "source.fixAll.oxc" },
-      ],
-    },
-    "TypeScript": {
-      "prettier": { "allowed": false },
-      "formatter": [
-        { "language_server": { "name": "oxfmt" } },
-        { "code_action": "source.fixAll.oxc" },
-      ],
-    },
-    "TSX": {
-      "prettier": { "allowed": false },
-      "formatter": [
-        { "language_server": { "name": "oxfmt" } },
-        { "code_action": "source.fixAll.oxc" },
-      ],
-    },
-  },
+  "prettier": { "allowed": false },
+  "formatter": [
+    { "language_server": { "name": "oxfmt" } },
+    { "code_action": "source.fixAll.oxc" }
+  ]
 }
