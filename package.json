@@ -64,8 +64,8 @@
     "drizzle-kit": "^0.31.10",
     "husky": "^9.1.7",
     "lint-staged": "^17.0.5",
-    "oxfmt": "^0.51.0",
-    "oxlint": "^1.66.0",
+    "oxfmt": "^0.52.0",
+    "oxlint": "^1.67.0",
     "shiki": "^4.1.0",
     "tailwindcss": "^4.3.0",
     "typescript": "^6.0.3"
