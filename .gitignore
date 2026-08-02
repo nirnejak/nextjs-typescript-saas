@@ -35,3 +35,6 @@ tsconfig.tsbuildinfo
 
 # vercel
 .vercel
+
+# typescript
+next-env.d.ts
