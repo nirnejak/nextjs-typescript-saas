@@ -36,7 +36,8 @@
     "db:studio": "drizzle-kit studio",
     "auth:generate": "auth generate --config features/auth/server.ts --output features/auth/schema.ts --yes",
     "db:make-admin": "bun scripts/make-admin.ts",
-    "email:dev": "email dev --dir features/email/templates --port 3001"
+    "email:dev": "email dev --dir features/email/templates --port 3001",
+    "knip": "knip"
   },
   "dependencies": {
     "@better-auth/passkey": "^1.7.7",
@@ -73,6 +74,7 @@
     "babel-plugin-react-compiler": "^1.0.0",
     "drizzle-kit": "^0.31.11",
     "husky": "^9.1.7",
+    "knip": "^6.39.0",
     "lint-staged": "^17.6.0",
     "oxfmt": "^0.71.0",
     "oxlint": "^1.86.0",
@@ -85,9 +87,10 @@
       "oxlint --fix",
       "oxfmt"
     ],
-    "*.json": "oxfmt"
+    "*.{json,css,md}": "oxfmt"
   },
   "volta": {
     "node": "24.14.0"
-  }
+  },
+  "packageManager": "bun@1.4.0"
 }

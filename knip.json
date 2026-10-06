@@ -1,0 +1,5 @@
+{
+  "$schema": "https://unpkg.com/knip@6/schema.json",
+  "entry": ["scripts/*.ts", "features/email/templates/*.tsx"],
+  "ignore": ["hooks/useDynamicHeight.tsx"]
+}

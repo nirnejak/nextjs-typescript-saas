@@ -1,7 +1,7 @@
-# Builds the Next.js app with Bun, then runs lint and format checks.
+# Lints, type-checks and builds the app with Bun
 # https://bun.sh/guides/runtime/cicd
 
-name: Next.js Build
+name: CI
 
 on:
   push:
@@ -12,15 +12,19 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      # Dummy values: the build only validates env, it never connects
+      DATABASE_URL: postgresql://ci:ci@localhost:5432/ci
+      BETTER_AUTH_SECRET: ci-only-secret-that-is-at-least-32-chars
+      BETTER_AUTH_URL: http://localhost:3000
 
     steps:
       - uses: actions/checkout@v6
-      - name: Setup Bun
-        uses: oven-sh/setup-bun@v2
+      - uses: oven-sh/setup-bun@v2
         with:
-          bun-version: latest
+          bun-version-file: package.json
       - run: bun install --frozen-lockfile
       - run: bun run lint
       - run: bun run format:check
       - run: bun run build
-      # - run: bun test
+      - run: bun run type-check
