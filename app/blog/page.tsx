@@ -3,13 +3,12 @@ import type { Metadata } from "next"
 import Link from "next/link"
 import type * as React from "react"
 
-import { getMetadata } from "@/utils/metadata"
-
 import { blogs } from "@/blogs"
+import { getMetadata } from "@/utils/metadata"
 
 export const metadata: Metadata = getMetadata({
   path: "/blog/",
-  title: "Blog | Next.js App",
+  title: "Blog",
   description: "Articles and writing",
 })
 

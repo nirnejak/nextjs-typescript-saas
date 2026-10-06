@@ -1,13 +1,7 @@
 import * as motion from "motion/react-client"
 import type * as React from "react"
-import { BASE_TRANSITION } from "@/utils/animation"
-import { getMetadata } from "@/utils/metadata"
 
-export const metadata = getMetadata({
-  path: "/",
-  title: "Next.js App",
-  description: "Next.js TypeScript SaaS Starter",
-})
+import { BASE_TRANSITION } from "@/utils/animation"
 
 const Home: React.FC = () => {
   return (

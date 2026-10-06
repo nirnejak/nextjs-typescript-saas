@@ -4,9 +4,9 @@ import type * as React from "react"
 import { getMetadata } from "@/utils/metadata"
 
 export const metadata = getMetadata({
-  path: "/",
-  title: "Not Found | Next.js App",
-  description: "Page not found on Next.js TypeScript SaaS Starter",
+  path: "/404/",
+  title: "Not Found",
+  description: "Page not found",
 })
 
 const NotFound: React.FC = () => {
