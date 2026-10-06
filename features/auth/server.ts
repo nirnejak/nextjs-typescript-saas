@@ -7,6 +7,7 @@ import { admin } from "better-auth/plugins"
 import config from "@/config"
 import { db } from "@/db"
 import { env } from "@/env"
+import { billingPlugins } from "@/features/billing/plugin"
 import { sendEmail } from "@/features/email/send"
 import WelcomeEmail from "@/features/email/templates/WelcomeEmail"
 
@@ -42,6 +43,7 @@ export const auth = betterAuth({
       rpName: config.appName,
       origin: env.BETTER_AUTH_URL,
     }),
+    ...billingPlugins,
     // Must stay last so cookies set inside server actions persist
     nextCookies(),
   ],

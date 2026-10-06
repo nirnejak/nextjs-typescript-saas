@@ -5,6 +5,8 @@ import PasskeyButton from "@/features/auth/components/PasskeyButton"
 import SignOutButton from "@/features/auth/components/SignOutButton"
 import StopImpersonatingButton from "@/features/auth/components/StopImpersonatingButton"
 import { requireSession } from "@/features/auth/session"
+import ManageBillingButton from "@/features/billing/components/ManageBillingButton"
+import { billingEnabled } from "@/features/billing/config"
 
 export const metadata = { title: "Dashboard" }
 
@@ -23,6 +25,7 @@ const DashboardPage: React.FC = async () => {
             Admin
           </Link>
         )}
+        {billingEnabled && <ManageBillingButton />}
         <PasskeyButton mode="add" />
         {session.impersonatedBy && <StopImpersonatingButton />}
         <SignOutButton />

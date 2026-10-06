@@ -8,6 +8,7 @@ const { baseUrl } = config
 export default function sitemap(): MetadataRoute.Sitemap {
   return [
     { url: `${baseUrl}/`, changeFrequency: "weekly", priority: 1 },
+    { url: `${baseUrl}/pricing/`, changeFrequency: "monthly", priority: 0.8 },
     { url: `${baseUrl}/blog/`, changeFrequency: "weekly", priority: 0.8 },
     ...blogs.map((blog) => ({
       url: `${baseUrl}/blog/${blog.slug}/`,
