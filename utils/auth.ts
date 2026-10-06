@@ -3,38 +3,27 @@ import { drizzleAdapter } from "better-auth/adapters/drizzle"
 
 import { db } from "@/db"
 import * as schema from "@/db/schema"
+import { env } from "@/env"
 
 export const auth = betterAuth({
-  database: drizzleAdapter(db, {
-    provider: "pg",
-    schema: {
-      ...schema,
-      user: schema.user,
-      account: schema.account,
-      session: schema.session,
-      verification: schema.verification,
-    },
-  }),
+  baseURL: env.BETTER_AUTH_URL,
+  secret: env.BETTER_AUTH_SECRET,
+  database: drizzleAdapter(db, { provider: "pg", schema }),
   emailAndPassword: {
     enabled: false,
   },
   socialProviders: {
     google: {
-      clientId: process.env.AUTH_GOOGLE_ID as string,
-      clientSecret: process.env.AUTH_GOOGLE_SECRET as string,
+      clientId: env.AUTH_GOOGLE_ID ?? "",
+      clientSecret: env.AUTH_GOOGLE_SECRET ?? "",
     },
     apple: {
-      clientId: process.env.AUTH_APPLE_ID as string,
-      clientSecret: process.env.AUTH_APPLE_SECRET as string,
+      clientId: env.AUTH_APPLE_ID ?? "",
+      clientSecret: env.AUTH_APPLE_SECRET ?? "",
     },
     twitter: {
-      clientId: process.env.AUTH_TWITTER_ID as string,
-      clientSecret: process.env.AUTH_TWITTER_SECRET as string,
+      clientId: env.AUTH_TWITTER_ID ?? "",
+      clientSecret: env.AUTH_TWITTER_SECRET ?? "",
     },
   },
-  baseURL:
-    process.env.BETTER_AUTH_URL ||
-    process.env.NEXT_PUBLIC_BETTER_AUTH_URL ||
-    "http://localhost:3000",
-  basePath: "/api/auth",
 })

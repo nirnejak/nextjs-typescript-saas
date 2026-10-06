@@ -41,13 +41,16 @@
     "@neondatabase/serverless": "^1.1.0",
     "@next/mdx": "^16.3.7",
     "@shikijs/rehype": "^4.5.0",
+    "@t3-oss/env-nextjs": "^0.13.11",
     "akar-icons": "^1.9.31",
     "better-auth": "^1.7.6",
     "drizzle-orm": "^0.45.3",
     "motion": "^13.4.6",
     "next": "^16.3.7",
     "react": "^19.3.0",
-    "react-dom": "^19.3.0"
+    "react-dom": "^19.3.0",
+    "server-only": "^0.0.1",
+    "zod": "^4.6.5"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.3.3",
