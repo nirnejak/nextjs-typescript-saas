@@ -34,7 +34,8 @@
     "db:migrate": "drizzle-kit migrate",
     "db:push": "drizzle-kit push",
     "db:studio": "drizzle-kit studio",
-    "auth:generate": "auth generate --config features/auth/server.ts --output features/auth/schema.ts --yes"
+    "auth:generate": "auth generate --config features/auth/server.ts --output features/auth/schema.ts --yes",
+    "db:make-admin": "bun scripts/make-admin.ts"
   },
   "dependencies": {
     "@better-auth/passkey": "^1.7.7",

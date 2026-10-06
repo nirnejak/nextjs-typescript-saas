@@ -1,13 +1,15 @@
+import Link from "next/link"
 import type * as React from "react"
 
 import PasskeyButton from "@/features/auth/components/PasskeyButton"
 import SignOutButton from "@/features/auth/components/SignOutButton"
+import StopImpersonatingButton from "@/features/auth/components/StopImpersonatingButton"
 import { requireSession } from "@/features/auth/session"
 
 export const metadata = { title: "Dashboard" }
 
 const DashboardPage: React.FC = async () => {
-  const { user } = await requireSession()
+  const { user, session } = await requireSession()
 
   return (
     <main className="grid min-h-dvh place-content-center">
@@ -16,7 +18,13 @@ const DashboardPage: React.FC = async () => {
           Welcome, {user.name}
         </h1>
         <p className="text-sm text-zinc-500">{user.email}</p>
+        {user.role === "admin" && (
+          <Link href="/admin/" className="text-sm underline">
+            Admin
+          </Link>
+        )}
         <PasskeyButton mode="add" />
+        {session.impersonatedBy && <StopImpersonatingButton />}
         <SignOutButton />
       </div>
     </main>
