@@ -2,23 +2,24 @@ import type { Metadata } from "next"
 import { notFound } from "next/navigation"
 import type * as React from "react"
 
-import { blogSlugs, blogs } from "@/blogs"
+import { blogs, getBlog } from "@/blogs"
 import { getMetadata } from "@/utils/metadata"
 
 interface Props {
   params: Promise<{ slug: string }>
 }
 
+export const dynamicParams = false
+
 export function generateStaticParams() {
-  return blogSlugs.map((slug) => ({ slug }))
+  return blogs.map(({ slug }) => ({ slug }))
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { slug } = await params
-  const blog = blogs[slug]
-  if (!blog) return {}
+  const blog = getBlog((await params).slug)
+  if (blog === undefined) return {}
   return getMetadata({
-    path: `/blog/${slug}/`,
+    path: `/blog/${blog.slug}/`,
     title: blog.title,
     description: blog.description,
     image: blog.cover.src,
@@ -26,11 +27,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 const BlogPage: React.FC<Props> = async ({ params }) => {
-  const { slug } = await params
-  const blog = blogs[slug]
-  if (!blog) notFound()
-  const Content = blog.Content
-  return <Content />
+  const blog = getBlog((await params).slug)
+  if (blog === undefined) notFound()
+  return <blog.Content />
 }
 
 export default BlogPage

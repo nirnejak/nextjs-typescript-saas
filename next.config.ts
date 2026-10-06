@@ -5,7 +5,7 @@ const nextConfig: NextConfig = {
   reactCompiler: true,
   trailingSlash: true,
   reactStrictMode: true,
-  pageExtensions: ["js", "jsx", "md", "mdx", "ts", "tsx"],
+  pageExtensions: ["ts", "tsx", "mdx"],
   experimental: {
     // TypeScript 7 (native Go compiler) doesn't expose the compiler API that
     // Next.js uses for type checking, so run the `tsc` CLI instead.
@@ -13,8 +13,11 @@ const nextConfig: NextConfig = {
   },
 }
 
+// Plugins are referenced by name: Turbopack needs serializable options
 const withMDX = createMDX({
-  options: {},
+  options: {
+    rehypePlugins: [["@shikijs/rehype", { theme: "plastic" }]],
+  },
 })
 
 export default withMDX(nextConfig)

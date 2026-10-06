@@ -40,6 +40,7 @@
     "@mdx-js/react": "^3.1.1",
     "@neondatabase/serverless": "^1.1.0",
     "@next/mdx": "^16.3.7",
+    "@shikijs/rehype": "^4.5.0",
     "akar-icons": "^1.9.31",
     "better-auth": "^1.7.6",
     "drizzle-orm": "^0.45.3",
@@ -60,7 +61,6 @@
     "lint-staged": "^17.6.0",
     "oxfmt": "^0.71.0",
     "oxlint": "^1.86.0",
-    "shiki": "^4.4.3",
     "tailwindcss": "^4.3.3",
     "typescript": "^7.0.2"
   },

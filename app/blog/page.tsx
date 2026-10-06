@@ -5,7 +5,7 @@ import type * as React from "react"
 
 import { getMetadata } from "@/utils/metadata"
 
-import { allBlogs } from "./data"
+import { blogs } from "@/blogs"
 
 export const metadata: Metadata = getMetadata({
   path: "/blog/",
@@ -23,7 +23,7 @@ const BlogsPage: React.FC = () => {
         <span className="flex text-zinc-400">& Articles.</span>
       </h1>
       <div className="mb-24 space-y-2.5 text-zinc-800">
-        {allBlogs.map((blog) => (
+        {blogs.map((blog) => (
           <div key={blog.slug}>
             <Link
               href={`/blog/${blog.slug}/`}
