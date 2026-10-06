@@ -1,6 +1,7 @@
 import "./env"
 
 import createMDX from "@next/mdx"
+import { withSentryConfig } from "@sentry/nextjs/config"
 import type { NextConfig } from "next"
 
 import { POSTHOG_HOSTS } from "./features/analytics/config"
@@ -36,4 +37,11 @@ const withMDX = createMDX({
   },
 })
 
-export default withMDX(nextConfig)
+export default withSentryConfig(withMDX(nextConfig), {
+  org: process.env.SENTRY_ORG,
+  project: process.env.SENTRY_PROJECT,
+  authToken: process.env.SENTRY_AUTH_TOKEN,
+  silent: process.env.CI === undefined,
+  // Upload source maps only when a token is configured
+  sourcemaps: { disable: process.env.SENTRY_AUTH_TOKEN === undefined },
+})

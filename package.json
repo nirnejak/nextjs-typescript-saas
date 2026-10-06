@@ -47,6 +47,7 @@
     "@polar-sh/better-auth": "^2.0.1",
     "@polar-sh/sdk": "^1.0.2",
     "@react-email/components": "^1.0.12",
+    "@sentry/nextjs": "^11.4.0",
     "@shikijs/rehype": "^4.5.0",
     "@t3-oss/env-nextjs": "^0.13.11",
     "akar-icons": "^1.9.31",
