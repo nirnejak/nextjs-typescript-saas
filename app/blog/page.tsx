@@ -1,6 +1,6 @@
 import { ArrowRight } from "akar-icons"
 import type { Metadata } from "next"
-import { Link } from "next-view-transitions"
+import Link from "next/link"
 import type * as React from "react"
 
 import { getMetadata } from "@/utils/metadata"

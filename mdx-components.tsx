@@ -1,5 +1,5 @@
 import type { MDXComponents } from "mdx/types"
-import { Link } from "next-view-transitions"
+import Link from "next/link"
 import type * as React from "react"
 import { codeToHtml } from "shiki"
 
