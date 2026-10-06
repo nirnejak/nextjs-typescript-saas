@@ -7,6 +7,8 @@ import { admin } from "better-auth/plugins"
 import config from "@/config"
 import { db } from "@/db"
 import { env } from "@/env"
+import { sendEmail } from "@/features/email/send"
+import WelcomeEmail from "@/features/email/templates/WelcomeEmail"
 
 import { socialProviders } from "./providers"
 import * as schema from "./schema"
@@ -19,6 +21,20 @@ export const auth = betterAuth({
   // Apple posts back from its own origin
   trustedOrigins: ["https://appleid.apple.com"],
   rateLimit: { enabled: true, storage: "database" },
+  databaseHooks: {
+    user: {
+      create: {
+        after: async (user) => {
+          await sendEmail({
+            to: user.email,
+            subject: `Welcome to ${config.appName}`,
+            // Called as a function so this file stays .ts (no JSX)
+            react: WelcomeEmail({ name: user.name }),
+          })
+        },
+      },
+    },
+  },
   plugins: [
     admin(),
     passkey({
