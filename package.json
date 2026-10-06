@@ -1,13 +1,17 @@
 {
   "name": "nextjs-typescript-saas",
   "version": "1.0.0",
-  "description": "Next.js TypeScript SaaS Starter",
+  "description": "Next.js SaaS starter with Better Auth, Drizzle, Polar, Resend, PostHog and Sentry",
   "keywords": [
+    "better-auth",
+    "drizzle",
     "nextjs",
     "oxfmt",
     "oxlint",
+    "polar",
     "precommit",
     "react",
+    "saas",
     "typescript"
   ],
   "bugs": {
@@ -33,40 +37,52 @@
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
     "db:push": "drizzle-kit push",
-    "db:studio": "drizzle-kit studio"
+    "db:studio": "drizzle-kit studio",
+    "auth:generate": "auth generate --config features/auth/server.ts --output features/auth/schema.ts --yes",
+    "db:make-admin": "bun scripts/make-admin.ts",
+    "email:dev": "email dev --dir features/email/templates --port 3001",
+    "knip": "knip"
   },
   "dependencies": {
+    "@better-auth/passkey": "^1.7.7",
     "@mdx-js/loader": "^3.1.1",
     "@mdx-js/react": "^3.1.1",
     "@neondatabase/serverless": "^1.1.0",
     "@next/mdx": "^16.3.7",
+    "@polar-sh/better-auth": "^2.0.1",
+    "@polar-sh/sdk": "^1.0.2",
+    "@react-email/components": "^1.0.12",
+    "@sentry/nextjs": "^11.4.0",
+    "@shikijs/rehype": "^4.5.0",
+    "@t3-oss/env-nextjs": "^0.13.11",
     "akar-icons": "^1.9.31",
-    "better-auth": "^1.7.6",
-    "class-variance-authority": "^0.7.1",
-    "dotenv": "^18.0.4",
+    "better-auth": "^1.7.7",
     "drizzle-orm": "^0.45.3",
     "motion": "^13.4.6",
     "next": "^16.3.7",
-    "next-view-transitions": "^0.3.5",
+    "posthog-js": "^1.438.1",
     "react": "^19.3.0",
     "react-dom": "^19.3.0",
-    "sharp": "^0.35.5",
-    "sonner": "^2.0.8",
-    "use-sound": "^5.0.0"
+    "resend": "^6.32.0",
+    "server-only": "^0.0.1",
+    "zod": "^4.6.5"
   },
   "devDependencies": {
+    "@react-email/ui": "^6.11.0",
     "@tailwindcss/postcss": "^4.3.3",
     "@tailwindcss/typography": "^0.5.20",
     "@types/mdx": "^2.0.14",
     "@types/node": "^26.6.3",
     "@types/react": "^19.3.0",
+    "auth": "^1.7.7",
     "babel-plugin-react-compiler": "^1.0.0",
     "drizzle-kit": "^0.31.11",
     "husky": "^9.1.7",
+    "knip": "^6.39.0",
     "lint-staged": "^17.6.0",
     "oxfmt": "^0.71.0",
     "oxlint": "^1.86.0",
-    "shiki": "^4.4.3",
+    "react-email": "^6.11.0",
     "tailwindcss": "^4.3.3",
     "typescript": "^7.0.2"
   },
@@ -75,9 +91,10 @@
       "oxlint --fix",
       "oxfmt"
     ],
-    "*.json": "oxfmt"
+    "*.{json,css,md}": "oxfmt"
   },
   "volta": {
     "node": "24.14.0"
-  }
+  },
+  "packageManager": "bun@1.4.0"
 }

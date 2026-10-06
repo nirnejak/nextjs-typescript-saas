@@ -1,7 +1,6 @@
 import type { MDXComponents } from "mdx/types"
-import { Link } from "next-view-transitions"
+import Link from "next/link"
 import type * as React from "react"
-import { codeToHtml } from "shiki"
 
 import classNames from "@/utils/classNames"
 
@@ -19,6 +18,8 @@ const BlogWrapper: React.FC<Props> = ({ children }) => {
           "prose-headings:font-semibold prose-headings:tracking-tight prose-headings:opacity-85",
           "prose-h1:text-3xl prose-h1:leading-snug",
           "prose-pre:bg-[#20252B] prose-pre:p-0 prose-pre:px-3 prose-code:text-sm",
+          // Inline code only; typography already resets `pre code`
+          "prose-code:before:hidden prose-code:after:hidden [&_:not(pre)>code]:rounded-sm [&_:not(pre)>code]:bg-zinc-100 [&_:not(pre)>code]:px-1.5 [&_:not(pre)>code]:py-0.5",
           "prose-table:overflow-hidden prose-table:rounded-xl",
           "prose-thead:border-zinc-300 prose-tr:border-zinc-300 prose-th:bg-zinc-200 prose-tr:bg-zinc-100",
           "prose-td:px-3 prose-th:px-3 prose-td:py-3.5 prose-th:py-3.5"
@@ -31,31 +32,6 @@ const BlogWrapper: React.FC<Props> = ({ children }) => {
 }
 
 const components: MDXComponents = {
-  code: async ({
-    className = "",
-    children,
-    ...props
-  }: React.ComponentPropsWithoutRef<"code">) => {
-    const isInline = !className.includes("language-")
-
-    const codeHTML = await codeToHtml(children as string, {
-      lang: className != null ? className.replace(/language-/, "") : "text",
-      theme: "plastic",
-    })
-
-    if (isInline) {
-      return (
-        <code
-          className="rounded-sm bg-zinc-100 px-1.5 py-0.5 font-semibold text-blue-600 before:hidden after:hidden"
-          {...props}
-        >
-          {(children as string).replaceAll("`", "")}
-        </code>
-      )
-    } else {
-      return <code dangerouslySetInnerHTML={{ __html: codeHTML }} {...props} />
-    }
-  },
   a: ({
     href = "",
     children,

@@ -1,15 +1,14 @@
 import { ArrowRight } from "akar-icons"
 import type { Metadata } from "next"
-import { Link } from "next-view-transitions"
+import Link from "next/link"
 import type * as React from "react"
 
+import { blogs } from "@/blogs"
 import { getMetadata } from "@/utils/metadata"
-
-import { allBlogs } from "./data"
 
 export const metadata: Metadata = getMetadata({
   path: "/blog/",
-  title: "Blog | Next.js App",
+  title: "Blog",
   description: "Articles and writing",
 })
 
@@ -23,7 +22,7 @@ const BlogsPage: React.FC = () => {
         <span className="flex text-zinc-400">& Articles.</span>
       </h1>
       <div className="mb-24 space-y-2.5 text-zinc-800">
-        {allBlogs.map((blog) => (
+        {blogs.map((blog) => (
           <div key={blog.slug}>
             <Link
               href={`/blog/${blog.slug}/`}

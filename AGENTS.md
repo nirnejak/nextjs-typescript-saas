@@ -1,197 +1,148 @@
 # AGENTS.md
 
-Guidelines and commands for agentic coding agents working in this Next.js TypeScript SaaS repository.
+Guidelines and commands for coding agents working in this Next.js TypeScript SaaS starter.
 
-## Development Commands
+Next.js docs for the installed version are in `node_modules/next/dist/docs/`. Read them before using unfamiliar Next.js APIs.
 
-### Core Commands
+## Commands
 
-- `bun run dev` - Start development server (http://localhost:3000)
-- `bun run build` - Build for production
-- `bun run start` - Start production server
-- `bun run lint` - Run oxlint
-- `bun run lint:fix` - Run oxlint with automatic fixes
-- `bun run format` - Format with oxfmt
-- `bun run format:check` - Check if files are formatted correctly
-- `bun run type-check` - Run TypeScript type checking
+- `bun run dev` - Start the dev server (http://localhost:3000)
+- `bun run build` - Production build
+- `bun run start` - Start the production server
+- `bun run lint` / `bun run lint:fix` - oxlint
+- `bun run format` / `bun run format:check` - oxfmt
+- `bun run type-check` - TypeScript (run after `build`, it reads Next's generated `.next/types`)
+- `bun run knip` - Unused files, exports and dependencies
+- `bun run db:generate` - Generate a migration from schema changes
+- `bun run db:migrate` - Apply pending migrations
+- `bun run db:push` - Push the schema directly (development only)
+- `bun run db:studio` - Drizzle Studio
+- `bun run db:make-admin <email>` - Give a user the admin role
+- `bun run auth:generate` - Regenerate `features/auth/schema.ts` from the Better Auth config
+- `bun run email:dev` - Preview email templates on port 3001
 
-### Database Commands (Drizzle ORM)
-
-- `bun run db:generate` - Generate migrations from schema changes
-- `bun run db:migrate` - Run pending migrations
-- `bun run db:push` - Push schema changes directly to database (development only)
-- `bun run db:studio` - Open Drizzle Studio for database management
-
-### Testing Commands
-
-**Note**: No testing framework configured. To add Vitest:
+There are no tests. Before completing work, run:
 
 ```bash
-bun add -D vitest @testing-library/react @testing-library/jest-dom jsdom
+bun run lint && bun run format:check && bun run build && bun run type-check && bun run knip
 ```
 
-Once configured, use:
-
-- `bun run test` - Run all tests
-- `bun run test:watch` - Run tests in watch mode
-- `bun run test:coverage` - Run tests with coverage
-- `bun run test -- path/to/test.spec.ts` - Run single test file
-
-## Code Style Guidelines
-
-### File Structure
+## Project Structure
 
 ```
-app/                    # Next.js App Router (pages, API routes, layouts)
-├── admin/              # Admin pages
-├── api/                # API routes (auth, schema, waitlist)
-├── auth/               # Authentication pages
-├── blog/               # Blog/MDX content (.mdx files)
-├── main.css            # Global CSS with Tailwind v4 and custom animations
-└── layout.tsx          # Root layout with font loading and theme setup
-components/             # React components (organized by atomic design)
-├── atoms/              # Atomic UI components using CVA for variants
-db/                     # Drizzle ORM schema and migrations (Neon PostgreSQL)
-hooks/                  # Custom React hooks (useModal, useClickOutside, useDynamicHeight, useTheme)
-utils/                  # Auth setup, metadata generation, schema.org, classNames helper, animation presets
-@types/                 # TypeScript type definitions
-config.ts               # Site-wide SEO/metadata configuration
-public/                 # Static assets
+app/                       Routes
+  page.tsx blog/ pricing/  Marketing pages live directly in app/ (no route group)
+  (auth)/sign-in/          Sign-in page
+  (app)/                   Signed-in pages; (app)/layout.tsx calls requireSession()
+  api/auth/[...all]/       Better Auth handler (also Polar webhooks)
+  robots.ts sitemap.ts manifest.ts icon.tsx apple-icon.tsx opengraph-image.tsx llms.txt/
+features/                  Optional features, one folder each
+  auth/                    server.ts (auth instance), client.ts, session.ts, providers.ts, schema.ts
+  billing/                 Polar plugin, CheckoutButton, ManageBillingButton
+  email/                   sendEmail(), react-email templates
+  analytics/               PostHog init and hosts
+  monitoring/              Sentry init
+  waitlist/                Table, server action, form
+blogs/                     MDX posts; each exports `metadata`, registered in blogs/index.ts
+db/                        Drizzle client, shared tables (rate limit), migrations
+hooks/                     useDynamicHeight
+utils/                     classNames, metadata, schema (JSON-LD), rate-limit, request, animation
+scripts/                   make-admin.ts
+docs/REMOVING.md           How to remove each feature
+env.ts                     Typed env (t3-env + zod)
+proxy.ts                   Optimistic redirect for /dashboard and /admin
+config.ts                  Site name, URL and SEO details
 ```
 
-Server components by default; use `"use client"` directive only when needed.
+## Feature Conventions
 
-### Import Patterns
+- Each optional feature lives in `features/<name>/` and owns its components, server code and Drizzle tables (`features/<name>/schema.ts`, picked up by `drizzle.config.ts`).
+- A feature turns itself off when its env vars are missing (`billingEnabled`, `emailEnabled`, `monitoringEnabled`, or a key check). Never make a feature's env var required in `env.ts`.
+- Add new env vars to `env.ts` and `.env.example` together. Client vars need the `NEXT_PUBLIC_` prefix and an entry in `experimental__runtimeEnv`.
+- When adding or removing a feature, update `docs/REMOVING.md`.
 
-```typescript
-import * as React from "react"
-import { cva, type VariantProps } from "class-variance-authority"
-import classNames from "@/utils/classNames"
-import * as motion from "motion/react-client"
-```
+## Auth
 
-- Use `import * as React from "react"` (namespace imports)
-- Use absolute imports with `@/` prefix for internal files
-- Group imports: React → external libraries → internal modules
-- Use type-only imports (`import type { Viewport } from "next"`)
+- Better Auth with the `admin`, `passkey` and `nextCookies` plugins (keep `nextCookies()` last), plus Polar when billing is configured.
+- The auth schema is generated. After changing plugins, run `bun run auth:generate`, then `bun run db:generate`.
+- `features/auth/server.ts` must not import `server-only` (directly or through its imports), because the Better Auth CLI loads it.
+- `proxy.ts` only checks that a session cookie exists. Pages and server actions must verify with `requireSession()` or `requireAdmin()` from `features/auth/session.ts`.
+- Social providers are enabled only when both their id and secret are set (`features/auth/providers.ts`).
 
-### Component Patterns
+## Code Style
 
-```typescript
-export interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-  VariantProps<typeof buttonVariants> {
-  asChild?: boolean
-}
-
-const Button: React.FC<Props> = ({ children, className, variant, size, ...props }) => (
-  <button className={classNames(buttonVariants({ variant, size }), className)} {...props}>
-    {children}
-  </button>
-)
-
-export default Button
-```
-
-- Use functional components with `React.FC<Props>`
-- Props extend HTML attributes and VariantProps from CVA
-- Export interface as `Props`, component as default export
-- Use `classNames` utility for conditional styling
-
-### Naming Conventions
-
-- **Components**: PascalCase (`Button`, `UserCard`)
-- **Hooks**: camelCase with `use` prefix (`useTheme`)
-- **Variables**: camelCase (`buttonVariants`)
-- **Constants**: UPPER_SNAKE_CASE (`BASE_URL`)
-- **Types**: PascalCase (`Props`, `ApiResponse<T>`)
-- **Files**: PascalCase for components, camelCase for utilities
-- **Database**: snake_case for table/column names
-
-### TypeScript Guidelines
-
-- Strict mode enabled (`strict: true`, `strictNullChecks: true`)
-- Use `interface` for object shapes and component props
-- Use `type` for unions and complex type expressions
-- Use path mapping with `@/*` for absolute imports
-- Include return type annotations for hook functions
-
-### Database Patterns
-
-```typescript
-export const user = pgTable("user", {
-  id: text("id").primaryKey(),
-  email: text("email").notNull().unique(),
-  updatedAt: timestamp("updated_at")
-    .$onUpdate(() => new Date())
-    .notNull(),
-})
-```
-
-- Schema-first with Drizzle ORM and Neon serverless PostgreSQL (`@neondatabase/serverless`)
-- Schema in `db/schema.ts` (user, session, account, verification, waitlist tables)
-- Config in `drizzle.config.ts`
-- Use foreign keys with cascade delete
-- Implement `$onUpdate` for automatic timestamps
-
-### Error Handling
-
-```typescript
-export async function POST(request: Request) {
-  try {
-    return NextResponse.json({ message: "Success!" }, { status: 200 })
-  } catch (error) {
-    console.error("Error processing request:", error)
-    return NextResponse.json(
-      { error: "Failed to process request" },
-      { status: 400 }
-    )
-  }
-}
-```
-
-- API routes: Try-catch with `NextResponse.json()`
-- Use `console.error` for logging, never expose sensitive data
-- Use proper HTTP status codes (200, 400, 500)
-
-### Formatting Rules
-
-oxlint handles linting and oxfmt handles formatting (no ESLint/Prettier/Biome). Key rules:
+oxlint handles linting and oxfmt handles formatting (no ESLint, Prettier or Biome).
 
 - No semicolons, double quotes, ES5 trailing commas, 2-space indent, 80-char line width
-- Tailwind classes sorted automatically by oxfmt (`sortTailwindcss` — recognizes `className`, `classNames(...)`, `cva(...)`, `cx(...)`, `clsx(...)`, `twMerge(...)`)
+- Tailwind classes are sorted by oxfmt (`className`, `classNames(...)`, `cx(...)`, `clsx(...)`, `twMerge(...)`)
 - Pre-commit hook runs `oxlint --fix` and `oxfmt` via lint-staged
 
-### Styling Guidelines
+### Imports
 
-- Tailwind CSS v4 with `@theme` directives in `app/main.css`
-- Custom animations using `@keyframes` and `--animate-*` variables
-- Use CSS custom properties (`--sans-font`, `--mono-font`)
-- Use `dark:` prefix for dark mode variants
-- Include `antialiased` for text quality
-- Animations: Framer Motion (`motion` package) with `BASE_TRANSITION` preset from `utils/animation.ts`
+```typescript
+import * as motion from "motion/react-client"
+import type * as React from "react"
 
-## Quality Assurance
+import config from "@/config"
+import classNames from "@/utils/classNames"
+```
 
-Always run before completing work:
+- `import * as React from "react"`, or `import type * as React` when only types are used
+- Type-only imports: `import type { Metadata } from "next"`
+- Absolute imports with `@/`; relative only within a feature folder
+- Group imports: external packages, then `@/` modules, then relative
 
-- `bun run lint` - No oxlint errors
-- `bun run type-check` - TypeScript passes
-- `bun run build` - Production build succeeds
+### Components
 
-## Architecture Details
+```typescript
+interface Props {
+  title: string
+}
 
-**Auth**: Better Auth with OAuth providers (Google, Apple, Twitter). Server instance in `utils/auth.ts`, client in `utils/auth-client.ts`. Auth API handled by catch-all route at `app/api/auth/[...all]/route.ts`.
+const Card: React.FC<Props> = ({ title }) => {
+  return <h2 className="text-lg font-semibold">{title}</h2>
+}
 
-**Content**: MDX support via `@next/mdx`. Custom components in `mdx-components.tsx` with Shiki syntax highlighting. Blog posts as `.mdx` files under `app/blog/`.
+export default Card
+```
 
-## Project Features
+- Server components by default; `"use client"` only when needed
+- `React.FC<Props>` with a default export
+- No UI component library: plain Tailwind markup, icons from `akar-icons`
+- Use `classNames()` for conditional classes
 
-- Next.js 16 with App Router, React 19, React Compiler
-- MDX support with Shiki syntax highlighting, View Transitions
-- Better Auth with OAuth providers (Google, Apple, Twitter)
-- Drizzle ORM with Neon serverless PostgreSQL
-- Tailwind CSS v4 with custom animations
-- Framer Motion (`motion` package) for animations
-- oxlint for linting and oxfmt for formatting (no ESLint/Prettier/Biome)
-- Bun package manager
-- Husky pre-commit hooks with lint-staged
+### Naming
+
+- Components: PascalCase files and names
+- Hooks: `use` prefix, camelCase
+- Constants: UPPER_SNAKE_CASE
+- Database tables and columns: snake_case
+
+### Data and Server Code
+
+- Mutations are server actions validated with zod, returning a state object for `useActionState` (see `features/waitlist/actions.ts`)
+- Rate-limit public actions with `rateLimit()` from `utils/rate-limit.ts`
+- Use `console.error` for failures and return a generic message; never expose internal errors
+- `sendEmail()` never throws; it logs to the console when email isn't configured
+
+## SEO
+
+- Site-wide metadata defaults are in `app/layout.tsx`; pages call `getMetadata()` from `utils/metadata.ts` with a plain title (the layout adds `| App Name`)
+- Pages are under `trailingSlash: true`, so links and paths end with `/`
+- Add new public pages to `app/sitemap.ts`
+
+## Styling
+
+- Tailwind CSS v4 with `@theme` in `app/main.css`
+- Dark mode follows the OS via `dark:` variants
+- Animations: `motion` with `BASE_TRANSITION` from `utils/animation.ts`
+
+<!-- BEGIN:nextjs-agent-rules -->
+
+# This is NOT the Next.js you know
+
+This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` (resolved from this file's directory; in monorepos the `next` package may not be visible from the repo root) before writing any code. Heed deprecation notices.
+
+This block is written and re-added by `next dev` — verify at `node_modules/next/dist/server/lib/generate-agent-files.js`. Removing it from a diff only re-creates the uncommitted change; committing it with your work keeps the tree clean.
+
+<!-- END:nextjs-agent-rules -->

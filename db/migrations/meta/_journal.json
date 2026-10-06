@@ -8,6 +8,27 @@
       "when": 1762104617256,
       "tag": "0000_large_doctor_doom",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1791295213124,
+      "tag": "0001_slow_black_knight",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1791295264652,
+      "tag": "0002_married_firedrake",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1791295511310,
+      "tag": "0003_loud_saracen",
+      "breakpoints": true
     }
   ]
 }

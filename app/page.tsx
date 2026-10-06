@@ -1,17 +1,12 @@
 import * as motion from "motion/react-client"
 import type * as React from "react"
-import { BASE_TRANSITION } from "@/utils/animation"
-import { getMetadata } from "@/utils/metadata"
 
-export const metadata = getMetadata({
-  path: "/",
-  title: "Next.js App",
-  description: "Next.js TypeScript SaaS Starter",
-})
+import WaitlistForm from "@/features/waitlist/components/WaitlistForm"
+import { BASE_TRANSITION } from "@/utils/animation"
 
 const Home: React.FC = () => {
   return (
-    <main className="grid h-dvh place-content-center">
+    <main className="grid h-dvh place-content-center place-items-center gap-8 px-4">
       <motion.h1
         initial={{ translateY: 20, opacity: 0, filter: `blur(10px)` }}
         animate={{ translateY: 0, opacity: 1, filter: "none" }}
@@ -20,6 +15,7 @@ const Home: React.FC = () => {
       >
         Next.js TypeScript SaaS Starter!
       </motion.h1>
+      <WaitlistForm />
     </main>
   )
 }

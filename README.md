@@ -3,108 +3,116 @@
 </h1>
 
 <p align="center">
-  A modern Next.js starter template with TypeScript, Tailwind CSS, and more
+  A full-featured Next.js starter for SaaS products, where every feature is easy to remove
 </p>
 
 ---
 
 ## Features
 
-- ⚡️ Next.js 15 with App Router
-- 🎨 Tailwind CSS with Typography plugin
-- 🔒 Better Auth for authentication
-- 🗄️ Drizzle ORM with NeonDB integration
-- 📝 MDX support for content
-- 🎭 Framer Motion for animations
-- 🔔 Sonner for toast notifications
-- 🎵 use-sound for sound effects
-- 🎨 Akar Icons for beautiful icons
-- 🔍 SEO optimized(with metadata and schema.org)
-- 🎯 TypeScript for type safety
-- 🧹 ESLint + Prettier for code quality
-- 🐶 Husky for git pre commit
-- 🚀 View transitions for smooth page navigation
+- Next.js 16 App Router, React 19 with React Compiler, TypeScript 7
+- Tailwind CSS v4, Motion, Akar Icons. No component library, design is yours
+- Better Auth: Google, Apple and X sign-in, passkeys, admin role with user management
+- Drizzle ORM with Neon serverless Postgres
+- Polar billing: checkout, customer portal, webhooks
+- Email with react-email templates, sent through Resend
+- PostHog analytics, proxied through `/ingest`
+- Sentry error monitoring (also works with self-hosted GlitchTip)
+- Waitlist form with validation and Postgres-backed rate limiting
+- MDX blog with build-time Shiki highlighting
+- SEO: metadata, generated icons and Open Graph image, sitemap, robots, manifest, JSON-LD, `llms.txt`
+- Typed env validation, security headers, `proxy.ts` route protection
+- oxlint, oxfmt, Knip, Husky + lint-staged, GitHub Actions CI, Dependabot
+
+Optional features turn themselves off until their env vars are set, so a fresh clone runs with only the three core variables.
+
+## Getting Started
+
+1. Clone and install:
+
+   ```bash
+   git clone https://github.com/nirnejak/nextjs-typescript-saas.git my-app
+   cd my-app
+   bun install
+   ```
+
+2. Copy `.env.example` to `.env` and fill in `DATABASE_URL`, `BETTER_AUTH_SECRET` (`openssl rand -base64 32`) and `BETTER_AUTH_URL`. To sign in, also set at least one OAuth provider (`AUTH_GOOGLE_*`, `AUTH_APPLE_*` or `AUTH_TWITTER_*`); passkeys are added after the first sign-in.
+
+3. Create the tables and start the dev server:
+
+   ```bash
+   bun run db:migrate
+   bun run dev
+   ```
+
+4. Sign in once, then make yourself an admin:
+
+   ```bash
+   bun run db:make-admin you@example.com
+   ```
+
+Update `config.ts` with your site's name, URL and author details.
+
+## Environment Variables
+
+| Variable                                            | Required | Feature                                                           |
+| --------------------------------------------------- | -------- | ----------------------------------------------------------------- |
+| `DATABASE_URL`                                      | Yes      | Database                                                          |
+| `BETTER_AUTH_SECRET`, `BETTER_AUTH_URL`             | Yes      | Auth (`BETTER_AUTH_URL` defaults to the deployment URL on Vercel) |
+| `AUTH_GOOGLE_*`, `AUTH_APPLE_*`, `AUTH_TWITTER_*`   | No       | Each sign-in provider, enabled when both are set                  |
+| `RESEND_API_KEY`, `EMAIL_FROM`                      | No       | Email (logged to the console when unset)                          |
+| `POLAR_ACCESS_TOKEN`, `POLAR_PRODUCT_ID_PRO`        | No       | Billing                                                           |
+| `POLAR_WEBHOOK_SECRET`                              | No       | Billing webhooks                                                  |
+| `POLAR_SERVER`                                      | No       | `sandbox` (default) or `production`                               |
+| `NEXT_PUBLIC_POSTHOG_KEY`                           | No       | Analytics                                                         |
+| `NEXT_PUBLIC_SENTRY_DSN`                            | No       | Monitoring                                                        |
+| `SENTRY_AUTH_TOKEN`, `SENTRY_ORG`, `SENTRY_PROJECT` | No       | Source map upload                                                 |
+
+The app uses `trailingSlash: true`, so set the Polar webhook URL to `https://your-domain/api/auth/polar/webhooks/` (with the trailing slash).
+
+## Scripts
+
+| Script                  | Description                                            |
+| ----------------------- | ------------------------------------------------------ |
+| `bun run dev`           | Start the dev server                                   |
+| `bun run build`         | Production build                                       |
+| `bun run start`         | Start the production server                            |
+| `bun run lint`          | Lint with oxlint (`lint:fix` to auto-fix)              |
+| `bun run format`        | Format with oxfmt (`format:check` to check)            |
+| `bun run type-check`    | TypeScript type checking                               |
+| `bun run knip`          | Find unused files, exports and dependencies            |
+| `bun run db:generate`   | Generate a migration from schema changes               |
+| `bun run db:migrate`    | Apply pending migrations                               |
+| `bun run db:push`       | Push the schema directly (development only)            |
+| `bun run db:studio`     | Open Drizzle Studio                                    |
+| `bun run db:make-admin` | Give a user the admin role                             |
+| `bun run auth:generate` | Regenerate the auth schema after changing auth plugins |
+| `bun run email:dev`     | Preview email templates on port 3001                   |
 
 ## Project Structure
 
 ```
-├── app/                 # Next.js app directory
-├── components/          # React components
-│   ├── atoms/          # Basic UI components
-│   └── ...
-├── hooks/              # Custom React hooks
-├── styles/             # Global styles
-├── utils/              # Utility functions
-├── public/             # Static assets
-├── assets/             # Project assets
-└── ...
+app/
+  page.tsx  blog/  pricing/       Marketing pages, directly in app/
+  (auth)/sign-in/                 Sign-in page
+  (app)/dashboard/  (app)/admin/  Signed-in pages (layout requires a session)
+  api/auth/[...all]/              Better Auth (also serves Polar webhooks)
+  robots.ts  sitemap.ts  manifest.ts  icon.tsx  opengraph-image.tsx  llms.txt/
+features/
+  auth/  billing/  email/  analytics/  monitoring/  waitlist/
+blogs/                            MDX posts
+db/                               Drizzle client, shared tables, migrations
+hooks/  utils/  scripts/
+env.ts                            Typed env validation
+proxy.ts                          Redirects signed-out users away from /dashboard and /admin
+config.ts                         Site name, URL and SEO details
 ```
 
-## Included
+Each `features/<name>/` folder owns its components, server code and database tables.
 
-- `not found page` page to handle 404 routes
-- `config.ts` container site information to be used for seo and schema.org data
-- `seo.ts` util to generate SEO metadata and schema.org
-- `manifest.json` for site info
-- `classnames` util for easily managing classes
-- `components/atoms/Button.tsx` a button component with variants
-- `hooks/useClickOutside` hook to check if user clicked outside the element
-- `hooks/useModal` hook to create modals, which can close with esc
-- `hooks/useDynamicHeight`
-- `auth pages` - Auth page for login
+## Removing Features
 
-## Additional Packages Used
-
-- next-view-transitions - for page smooth transitions
-- Tailwind CSS - for styling(with typography plugin)
-- Framer Motion - for animations
-- Akar Icons - library for rounded icons
-- Sonner - for toast messages
-- use-sound - for using sounds
-- Class Variance Authority - for type-safely managing class names
-
-## Getting Started
-
-1. Clone and install: `git clone https://github.com/nirnejak/nextjs-typescript-saas.git && cd nextjs-typescript-saas && bun install`
-
-2. Set up environment: `cp .env.example .env` and update `.env` with your config
-
-3. Start dev server: `bun run dev`
-
-## Available Scripts
-
-- `bun install` - Install dependencies
-- `bun run prepare` - Setup pre-commit hooks
-- `bun run dev` - Start development server
-- `bun run lint` - Run ESLint
-- `bun run format` - Format with Prettier
-- `bun run type-check` - Run TypeScript type checking
-- `bun run db:generate` - Generate database migrations
-- `bun run db:migrate` - Run database migrations
-- `bun run build` - Build for production
-- `bun run start` - Start production server
-
-## Configuration
-
-Update the `config.ts` file with your site's information:
-
-```typescript
-const config = {
-  baseUrl: "https://your-site.com",
-  appName: "Your App Name",
-  appDescription: "Your app description",
-  creator: "Your Name",
-  authorName: "Your Name",
-  authorUrl: "Your URL or Email",
-  keywords: ["your", "keywords"],
-  twitterSite: "@your-site",
-  twitterCreator: "@your-username",
-}
-```
-
-## Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
+See [docs/REMOVING.md](docs/REMOVING.md) for a checklist per feature.
 
 ## License
 

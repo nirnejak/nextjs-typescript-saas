@@ -1,9 +1,10 @@
-import type { Viewport } from "next"
+import type { Metadata, Viewport } from "next"
 import { Inter } from "next/font/google"
 import localFont from "next/font/local"
-import { ViewTransitions } from "next-view-transitions"
 import type * as React from "react"
+import { ViewTransition } from "react"
 
+import config from "@/config"
 import classNames from "@/utils/classNames"
 import { renderSchemaTags } from "@/utils/schema"
 
@@ -26,8 +27,31 @@ const monoFont = localFont({
   ],
 })
 
+export const metadata: Metadata = {
+  metadataBase: new URL(config.baseUrl),
+  title: { default: config.appName, template: `%s | ${config.appName}` },
+  description: config.appDescription,
+  applicationName: config.appName,
+  creator: config.creator,
+  authors: [{ name: config.authorName, url: config.authorUrl }],
+  keywords: config.keywords,
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
+  },
+  appleWebApp: { capable: true, title: config.appName },
+}
+
 export const viewport: Viewport = {
-  themeColor: "#000000",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#fafafa" },
+    { media: "(prefers-color-scheme: dark)", color: "#18181b" },
+  ],
 }
 
 interface Props {
@@ -36,20 +60,16 @@ interface Props {
 
 const RootLayout: React.FC<Props> = ({ children }) => {
   return (
-    <ViewTransitions>
-      <html
-        lang="en"
-        className={classNames(sansFont.variable, monoFont.variable)}
-      >
-        <head>{renderSchemaTags()}</head>
+    <html
+      lang="en"
+      className={classNames(sansFont.variable, monoFont.variable)}
+    >
+      <head>{renderSchemaTags()}</head>
 
-        <body
-          className={`overflow-x-hidden bg-zinc-50 font-sans dark:bg-zinc-900`}
-        >
-          {children}
-        </body>
-      </html>
-    </ViewTransitions>
+      <body className="overflow-x-hidden bg-zinc-50 font-sans dark:bg-zinc-900">
+        <ViewTransition>{children}</ViewTransition>
+      </body>
+    </html>
   )
 }
 
