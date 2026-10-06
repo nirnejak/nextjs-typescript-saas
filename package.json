@@ -1,13 +1,17 @@
 {
   "name": "nextjs-typescript-saas",
   "version": "1.0.0",
-  "description": "Next.js TypeScript SaaS Starter",
+  "description": "Next.js SaaS starter with Better Auth, Drizzle, Polar, Resend, PostHog and Sentry",
   "keywords": [
+    "better-auth",
+    "drizzle",
     "nextjs",
     "oxfmt",
     "oxlint",
+    "polar",
     "precommit",
     "react",
+    "saas",
     "typescript"
   ],
   "bugs": {
