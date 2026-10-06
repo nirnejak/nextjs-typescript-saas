@@ -36,7 +36,7 @@ Optional features turn themselves off until their env vars are set, so a fresh c
    bun install
    ```
 
-2. Copy `.env.example` to `.env` and fill in `DATABASE_URL`, `BETTER_AUTH_SECRET` (`openssl rand -base64 32`) and `BETTER_AUTH_URL`.
+2. Copy `.env.example` to `.env` and fill in `DATABASE_URL`, `BETTER_AUTH_SECRET` (`openssl rand -base64 32`) and `BETTER_AUTH_URL`. To sign in, also set at least one OAuth provider (`AUTH_GOOGLE_*`, `AUTH_APPLE_*` or `AUTH_TWITTER_*`); passkeys are added after the first sign-in.
 
 3. Create the tables and start the dev server:
 

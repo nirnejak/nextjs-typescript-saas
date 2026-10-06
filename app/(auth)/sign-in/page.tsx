@@ -21,6 +21,14 @@ const SignInPage: React.FC = async () => {
       <div className="flex w-72 flex-col gap-3">
         <h1 className="mb-2 text-2xl font-semibold tracking-tight">Sign in</h1>
         <SignInButtons providers={enabledProviders} />
+        {enabledProviders.length === 0 &&
+          process.env.NODE_ENV === "development" && (
+            <p className="text-sm text-zinc-500">
+              No sign-in provider is configured. Set the AUTH_GOOGLE_*,
+              AUTH_APPLE_* or AUTH_TWITTER_* vars in .env to create an account;
+              passkeys can be added after signing in.
+            </p>
+          )}
         <PasskeyButton mode="sign-in" />
       </div>
     </main>

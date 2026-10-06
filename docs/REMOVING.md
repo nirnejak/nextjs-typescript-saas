@@ -54,7 +54,8 @@ bun run lint && bun run type-check && bun run build && bun run knip
 
 - Delete: `features/waitlist/`
 - Wiring: `<WaitlistForm />` and its import in `app/page.tsx`
-- Then `bun run db:generate` to create the migration that drops the table
+- If no other server action uses rate limiting, also delete `utils/rate-limit.ts`, `utils/request.ts` and the `actionRateLimit` table in `db/schema.ts`
+- Then `bun run db:generate` to create the migration that drops the table(s)
 
 ## Blog (MDX)
 
@@ -82,7 +83,7 @@ Remove Billing first.
 
 Remove Auth and Waitlist first.
 
-- Delete: `db/`, `drizzle.config.ts`, `utils/rate-limit.ts`, `utils/request.ts`
+- Delete: `db/`, `drizzle.config.ts`, and `utils/rate-limit.ts` / `utils/request.ts` if still present
 - Remove dependencies: `bun remove drizzle-orm drizzle-kit @neondatabase/serverless`
 - Env: drop `DATABASE_URL` from `env.ts` and `.env.example`
 - Wiring: the `db:*` scripts in `package.json`

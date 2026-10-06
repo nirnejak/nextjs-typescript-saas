@@ -41,14 +41,17 @@ const AdminPage: React.FC = async () => {
               <td className="flex justify-end gap-3 py-2">
                 {user.id !== currentUser.id && (
                   <>
-                    <form action={impersonateUser.bind(null, user.id)}>
-                      <button
-                        type="submit"
-                        className="cursor-pointer underline"
-                      >
-                        Impersonate
-                      </button>
-                    </form>
+                    {/* Better Auth doesn't allow impersonating admins */}
+                    {user.role !== "admin" && (
+                      <form action={impersonateUser.bind(null, user.id)}>
+                        <button
+                          type="submit"
+                          className="cursor-pointer underline"
+                        >
+                          Impersonate
+                        </button>
+                      </form>
+                    )}
                     <form
                       action={(user.banned ? unbanUser : banUser).bind(
                         null,
