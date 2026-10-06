@@ -7,7 +7,11 @@ export const env = createEnv({
   server: {
     DATABASE_URL: z.url(),
     BETTER_AUTH_SECRET: z.string().min(32),
-    BETTER_AUTH_URL: z.url(),
+    // Optional on Vercel: falls back to the deployment URL (see features/auth/url.ts)
+    BETTER_AUTH_URL: z.url().optional(),
+    VERCEL_ENV: z.enum(["production", "preview", "development"]).optional(),
+    VERCEL_URL: z.string().optional(),
+    VERCEL_PROJECT_PRODUCTION_URL: z.string().optional(),
 
     AUTH_GOOGLE_ID: z.string().optional(),
     AUTH_GOOGLE_SECRET: z.string().optional(),

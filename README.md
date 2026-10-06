@@ -55,18 +55,18 @@ Update `config.ts` with your site's name, URL and author details.
 
 ## Environment Variables
 
-| Variable                                            | Required | Feature                                          |
-| --------------------------------------------------- | -------- | ------------------------------------------------ |
-| `DATABASE_URL`                                      | Yes      | Database                                         |
-| `BETTER_AUTH_SECRET`, `BETTER_AUTH_URL`             | Yes      | Auth                                             |
-| `AUTH_GOOGLE_*`, `AUTH_APPLE_*`, `AUTH_TWITTER_*`   | No       | Each sign-in provider, enabled when both are set |
-| `RESEND_API_KEY`, `EMAIL_FROM`                      | No       | Email (logged to the console when unset)         |
-| `POLAR_ACCESS_TOKEN`, `POLAR_PRODUCT_ID_PRO`        | No       | Billing                                          |
-| `POLAR_WEBHOOK_SECRET`                              | No       | Billing webhooks                                 |
-| `POLAR_SERVER`                                      | No       | `sandbox` (default) or `production`              |
-| `NEXT_PUBLIC_POSTHOG_KEY`                           | No       | Analytics                                        |
-| `NEXT_PUBLIC_SENTRY_DSN`                            | No       | Monitoring                                       |
-| `SENTRY_AUTH_TOKEN`, `SENTRY_ORG`, `SENTRY_PROJECT` | No       | Source map upload                                |
+| Variable                                            | Required | Feature                                                           |
+| --------------------------------------------------- | -------- | ----------------------------------------------------------------- |
+| `DATABASE_URL`                                      | Yes      | Database                                                          |
+| `BETTER_AUTH_SECRET`, `BETTER_AUTH_URL`             | Yes      | Auth (`BETTER_AUTH_URL` defaults to the deployment URL on Vercel) |
+| `AUTH_GOOGLE_*`, `AUTH_APPLE_*`, `AUTH_TWITTER_*`   | No       | Each sign-in provider, enabled when both are set                  |
+| `RESEND_API_KEY`, `EMAIL_FROM`                      | No       | Email (logged to the console when unset)                          |
+| `POLAR_ACCESS_TOKEN`, `POLAR_PRODUCT_ID_PRO`        | No       | Billing                                                           |
+| `POLAR_WEBHOOK_SECRET`                              | No       | Billing webhooks                                                  |
+| `POLAR_SERVER`                                      | No       | `sandbox` (default) or `production`                               |
+| `NEXT_PUBLIC_POSTHOG_KEY`                           | No       | Analytics                                                         |
+| `NEXT_PUBLIC_SENTRY_DSN`                            | No       | Monitoring                                                        |
+| `SENTRY_AUTH_TOKEN`, `SENTRY_ORG`, `SENTRY_PROJECT` | No       | Source map upload                                                 |
 
 The app uses `trailingSlash: true`, so set the Polar webhook URL to `https://your-domain/api/auth/polar/webhooks/` (with the trailing slash).
 

@@ -12,10 +12,11 @@ import { sendEmail } from "@/features/email/send"
 import WelcomeEmail from "@/features/email/templates/WelcomeEmail"
 
 import { socialProviders } from "./providers"
+import { authUrl } from "./url"
 import * as schema from "./schema"
 
 export const auth = betterAuth({
-  baseURL: env.BETTER_AUTH_URL,
+  baseURL: authUrl,
   secret: env.BETTER_AUTH_SECRET,
   database: drizzleAdapter(db, { provider: "pg", schema }),
   socialProviders,
@@ -39,9 +40,9 @@ export const auth = betterAuth({
   plugins: [
     admin(),
     passkey({
-      rpID: new URL(env.BETTER_AUTH_URL).hostname,
+      rpID: new URL(authUrl).hostname,
       rpName: config.appName,
-      origin: env.BETTER_AUTH_URL,
+      origin: authUrl,
     }),
     ...billingPlugins,
     // Must stay last so cookies set inside server actions persist
